@@ -4,6 +4,7 @@ CREATE TABLE Acc_txn
   Acc_Num char(5) NOT NULL,
   Txn_Time datetime NOT NULL,
   Txn_Type char(2) NOT NULL,
+  Txn_Details varchar(40) NOT NULL,
   Txn_Amount float NOT NULL,
   Txn_Status varchar(10) NOT NULL,
   Status_Time datetime NOT NULL,
