@@ -1,7 +1,7 @@
 CREATE TABLE Acc_txn
 (
   Txn_Id integer unsigned NOT NULL AUTO_INCREMENT,
-  Acc_Num integer unsigned NOT NULL,
+  Acc_Num char(5) NOT NULL,
   Txn_Time datetime NOT NULL,
   Txn_Type char(2) NOT NULL,
   Txn_Amount float NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE Acc_txn
 
 CREATE TABLE Customer
 (
-  Customer_Id integer unsigned NOT NULL AUTO_INCREMENT,
+  Customer_Id char(4) NOT NULL AUTO_INCREMENT,
   Customer_FName varchar(25) NOT NULL,
   Customer_LName varbinary(25) NOT NULL,
   CONSTRAINT PK_Customer PRIMARY KEY (Customer_Id)
@@ -20,8 +20,8 @@ CREATE TABLE Customer
 
 CREATE TABLE Customer_Acc
 (
-  Acc_Num integer unsigned NOT NULL AUTO_INCREMENT,
-  Customer_Id integer unsigned NOT NULL,
+  Acc_Num char(5) NOT NULL AUTO_INCREMENT,
+  Customer_Id char(4) NOT NULL,
   Acc_Bal float NOT NULL DEFAULT 0,
   Updt_time datetime NOT NULL,
   CONSTRAINT PK_Customer_Acc PRIMARY KEY (Acc_Num)
@@ -30,7 +30,7 @@ CREATE TABLE Customer_Acc
 CREATE TABLE Customer_Contact
 (
   Contact_Id integer unsigned NOT NULL AUTO_INCREMENT,
-  Customer_Id integer unsigned NOT NULL,
+  Customer_Id char(4) NOT NULL,
   Contact_Type varchar(10) NOT NULL,
   Contact_Info varchar(35) NOT NULL,
   Contact_Pref char(1),
@@ -41,7 +41,7 @@ CREATE TABLE MFA_Inflight
 (
   InFlight_Id bigint NOT NULL AUTO_INCREMENT,
   Txn_Id integer unsigned NOT NULL,
-  Customer_Id integer unsigned NOT NULL,
+  Customer_Id char(4) NOT NULL,
   Contact_Info varchar(35) NOT NULL,
   Contact_Type varchar(10) NOT NULL,
   MF_Type varchar(10) NOT NULL,
