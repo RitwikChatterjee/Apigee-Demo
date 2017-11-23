@@ -1,0 +1,184 @@
+---
+swagger: "2.0"
+info:
+  description: "Account transactions"
+  version: "1.0.0"
+  title: "Transactions"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /transactions/{id}:
+    get:
+      tags:
+      - "Transactions"
+      summary: "Get transaction"
+      operationId: "GET-transaction"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/transaction-output"
+          examples:
+            application/json:
+              Txn_Id: 56539511
+              Txn_Type: "Dr"
+              Status_Time: "2017-11-25 22:15:32"
+              Acc_Num: "AC001"
+              Txn_Details: "Transfer/Withdrawal"
+              Txn_Amout: 22.510000000000001563194018672220408916473388671875
+              Txn_Time: "2017-11-25 21:15:32"
+              Txn_Status: "Completed"
+        404:
+          description: ""
+      x-swagger-router-controller: "Transactions"
+    put:
+      tags:
+      - "Transactions"
+      summary: "Update transaction"
+      operationId: "PUT-transaction"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        required: false
+        schema:
+          $ref: "#/definitions/transaction-input"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/transaction-output"
+      x-swagger-router-controller: "Transactions"
+    delete:
+      tags:
+      - "Transactions"
+      summary: "Delete transaction"
+      operationId: "DELETE-transaction"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        204:
+          description: ""
+      x-swagger-router-controller: "Transactions"
+  /transactions:
+    get:
+      tags:
+      - "Transactions"
+      summary: "List transactions"
+      operationId: "LIST-transactions"
+      parameters:
+      - name: "acc_num"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "start_dt"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "end_dt"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "number"
+      - name: "limit"
+        in: "query"
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: ""
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/transaction-output"
+          examples:
+            application/json:
+            - Txn_Id: 56539511
+              Txn_Type: "Dr"
+              Status_Time: "2017-11-25 22:17:32"
+              Acc_Num: "AC001"
+              Txn_Details: "Transfer/Withdrawal"
+              Txn_Amout: 22.510000000000001563194018672220408916473388671875
+              Txn_Time: "2017-11-25 21:15:32"
+              Txn_Status: "Completed"
+            - Txn_Id: 56555511
+              Txn_Type: "Dr"
+              Status_Time: "2017-11-23 12:15:32"
+              Acc_Num: "AC001"
+              Txn_Details: "Transfer/Withdrawal"
+              Txn_Amout: 22.530000000000001136868377216160297393798828125
+              Txn_Time: "2017-11-23 12:15:00"
+              Txn_Status: "Pending"
+            - Txn_Id: 56539511
+              Txn_Type: "Dr"
+              Status_Time: "2017-10-25 22:19:32"
+              Acc_Num: "AC001"
+              Txn_Details: "Transfer/Withdrawal"
+              Txn_Amout: 22.510000000000001563194018672220408916473388671875
+              Txn_Time: "2017-11-25 21:15:32"
+              Txn_Status: "Failed"
+        404:
+          description: ""
+      x-swagger-router-controller: "Transactions"
+    post:
+      tags:
+      - "Transactions"
+      summary: "Create transaction"
+      operationId: "POST-transaction"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: false
+        schema:
+          $ref: "#/definitions/transaction-input"
+      responses:
+        201:
+          description: ""
+          schema:
+            $ref: "#/definitions/transaction-output"
+      x-swagger-router-controller: "Transactions"
+definitions:
+  transaction-input:
+    type: "object"
+    properties:
+      Acc_Num:
+        type: "string"
+      Txn_Time:
+        type: "string"
+      Txn_Type:
+        type: "string"
+      Txn_Details:
+        type: "string"
+      Txn_Amout:
+        type: "number"
+      Txn_Status:
+        type: "string"
+      Status_Time:
+        type: "string"
+    title: "transaction Input"
+  transaction-output:
+    title: "transaction Output"
+    allOf:
+    - type: "object"
+      required:
+      - "Txn_Id"
+      properties:
+        Txn_Id:
+          type: "integer"
+    - $ref: "#/definitions/transaction-input"

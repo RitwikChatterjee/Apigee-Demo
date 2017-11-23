@@ -158,10 +158,10 @@ definitions:
   transaction-output:
     title: transaction Output
     allOf:
+      - $ref: '#/definitions/transaction-input'
       - type: object
         properties:
           Txn_Id:
             type: integer
         required:
           - Txn_Id
-      - $ref: '#/definitions/transaction-input'
