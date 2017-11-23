@@ -1,0 +1,7 @@
+Txn_Id,Acc_Num,Txn_Time,Txn_Type,Txn_Details,Txn_Amount,Txn_Status,Status_Time
+1,AC001,11/23/2017,DR,Transfer,1.23,Completed,11/23/2017
+2,AC001,11/23/2017,DR,Transfer,2.34,Pending,11/23/2017
+3,AC001,11/23/2017,DR,Transfer,3.45,Failed,11/23/2017
+4,AC002,11/23/2017,DR,Transfer,4.56,Completed,11/23/2017
+5,AC002,11/23/2017,DR,Transfer,5.67,Pending,11/23/2017
+6,AC002,11/23/2017,DR,Transfer,6.78,Failed,11/23/2017

@@ -23,11 +23,14 @@ CREATE TABLE IF NOT EXISTS `acc_txn` (
   `Txn_Status` varchar(10) NOT NULL,
   `Status_Time` datetime NOT NULL,
   PRIMARY KEY (`Txn_Id`),
-  KEY `IX_Acc_txn_Acc` (`Acc_Num`),
-  CONSTRAINT `FK_Acc_txn_Acc` FOREIGN KEY (`Acc_Num`) REFERENCES `customer_acc` (`Acc_Num`)
+  KEY `IX_Acc_txn_Acc` (`Acc_Num`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Data exporting was unselected.
+-- Dumping data for table apigee_demo.acc_txn: ~0 rows (approximately)
+DELETE FROM `acc_txn`;
+/*!40000 ALTER TABLE `acc_txn` DISABLE KEYS */;
+/*!40000 ALTER TABLE `acc_txn` ENABLE KEYS */;
+
 -- Dumping structure for table apigee_demo.customer
 DROP TABLE IF EXISTS `customer`;
 CREATE TABLE IF NOT EXISTS `customer` (
@@ -37,7 +40,14 @@ CREATE TABLE IF NOT EXISTS `customer` (
   PRIMARY KEY (`Customer_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Data exporting was unselected.
+-- Dumping data for table apigee_demo.customer: ~0 rows (approximately)
+DELETE FROM `customer`;
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+INSERT INTO `customer` (`Customer_Id`, `Customer_FName`, `Customer_LName`) VALUES
+	('C001', 'Kinu', 'Goyala'),
+	('C002', 'Naru', 'Gopal');
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+
 -- Dumping structure for table apigee_demo.customer_acc
 DROP TABLE IF EXISTS `customer_acc`;
 CREATE TABLE IF NOT EXISTS `customer_acc` (
@@ -50,7 +60,14 @@ CREATE TABLE IF NOT EXISTS `customer_acc` (
   CONSTRAINT `FK_Customer_Acc_Cust` FOREIGN KEY (`Customer_Id`) REFERENCES `customer` (`Customer_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Data exporting was unselected.
+-- Dumping data for table apigee_demo.customer_acc: ~0 rows (approximately)
+DELETE FROM `customer_acc`;
+/*!40000 ALTER TABLE `customer_acc` DISABLE KEYS */;
+INSERT INTO `customer_acc` (`Acc_Num`, `Customer_Id`, `Acc_Bal`, `Updt_time`) VALUES
+	('AC001', 'C001', 500, '2017-11-22 00:00:00'),
+	('AC002', 'C002', 540, '2017-11-22 00:00:00');
+/*!40000 ALTER TABLE `customer_acc` ENABLE KEYS */;
+
 -- Dumping structure for table apigee_demo.customer_contact
 DROP TABLE IF EXISTS `customer_contact`;
 CREATE TABLE IF NOT EXISTS `customer_contact` (
@@ -64,7 +81,14 @@ CREATE TABLE IF NOT EXISTS `customer_contact` (
   CONSTRAINT `FK_Customer_Contact_Cust` FOREIGN KEY (`Customer_Id`) REFERENCES `customer` (`Customer_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Data exporting was unselected.
+-- Dumping data for table apigee_demo.customer_contact: ~0 rows (approximately)
+DELETE FROM `customer_contact`;
+/*!40000 ALTER TABLE `customer_contact` DISABLE KEYS */;
+INSERT INTO `customer_contact` (`Contact_Id`, `Customer_Id`, `Contact_Type`, `Contact_Info`, `Contact_Pref`) VALUES
+	(1, 'C001', 'email', 'kinu.goyala@gmail.com', 'Y'),
+	(2, 'C002', 'email', 'naru.gopal@gmail.com', 'Y');
+/*!40000 ALTER TABLE `customer_contact` ENABLE KEYS */;
+
 -- Dumping structure for table apigee_demo.mfa_inflight
 DROP TABLE IF EXISTS `mfa_inflight`;
 CREATE TABLE IF NOT EXISTS `mfa_inflight` (
@@ -81,11 +105,14 @@ CREATE TABLE IF NOT EXISTS `mfa_inflight` (
   `Status_time` datetime NOT NULL,
   `Status_Loc` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`InFlight_Id`),
-  KEY `IX_MFA_Inflight_Txn` (`Txn_Id`),
-  CONSTRAINT `FK_MFA_Inflight_Txn` FOREIGN KEY (`Txn_Id`) REFERENCES `acc_txn` (`Txn_Id`)
+  KEY `IX_MFA_Inflight_Txn` (`Txn_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Data exporting was unselected.
+-- Dumping data for table apigee_demo.mfa_inflight: ~0 rows (approximately)
+DELETE FROM `mfa_inflight`;
+/*!40000 ALTER TABLE `mfa_inflight` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mfa_inflight` ENABLE KEYS */;
+
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

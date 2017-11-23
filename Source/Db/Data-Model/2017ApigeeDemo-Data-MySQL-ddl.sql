@@ -55,18 +55,6 @@ CREATE TABLE MFA_Inflight
   CONSTRAINT PK_MFA_Inflight PRIMARY KEY (InFlight_Id)
 );
 
-ALTER TABLE Acc_txn ADD CONSTRAINT FK_Acc_txn_Acc
-  FOREIGN KEY (Acc_Num) REFERENCES Customer_Acc (Acc_Num);
-
-ALTER TABLE Customer_Acc ADD CONSTRAINT FK_Customer_Acc_Cust
-  FOREIGN KEY (Customer_Id) REFERENCES Customer (Customer_Id);
-
-ALTER TABLE Customer_Contact ADD CONSTRAINT FK_Customer_Contact_Cust
-  FOREIGN KEY (Customer_Id) REFERENCES Customer (Customer_Id);
-
-ALTER TABLE MFA_Inflight ADD CONSTRAINT FK_MFA_Inflight_Txn
-  FOREIGN KEY (Txn_Id) REFERENCES Acc_txn (Txn_Id);
-
 CREATE INDEX IX_Acc_txn_Acc
   ON Acc_txn (Acc_Num);
 
