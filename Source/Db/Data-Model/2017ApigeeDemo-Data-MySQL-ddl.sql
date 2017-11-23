@@ -15,7 +15,7 @@ CREATE TABLE Customer
 (
   Customer_Id char(4) NOT NULL,
   Customer_FName varchar(25) NOT NULL,
-  Customer_LName varbinary(25) NOT NULL,
+  Customer_LName varchar(25) NOT NULL,
   CONSTRAINT PK_Customer PRIMARY KEY (Customer_Id)
 );
 
