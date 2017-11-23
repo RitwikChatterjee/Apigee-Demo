@@ -1,0 +1,167 @@
+swagger: '2.0'
+info:
+  version: ''
+  title: Transactions
+  description: Account transactions
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  '/transactions/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET-transaction
+      summary: Get transaction
+      tags:
+        - Transactions
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/transaction-output'
+          examples:
+            application/json:
+              Txn_Id: 56539511
+              Txn_Type: Dr
+              Status_Time: '2017-11-25 22:15:32'
+              Acc_Num: AC001
+              Txn_Details: Transfer/Withdrawal
+              Txn_Amout: 22.51
+              Txn_Time: '2017-11-25 21:15:32'
+              Txn_Status: Completed
+        '404':
+          description: ''
+    put:
+      operationId: PUT-transaction
+      summary: Update transaction
+      tags:
+        - Transactions
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/transaction-input'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/transaction-output'
+    delete:
+      operationId: DELETE-transaction
+      summary: Delete transaction
+      tags:
+        - Transactions
+      responses:
+        '204':
+          description: ''
+  /transactions:
+    get:
+      operationId: LIST-transactions
+      summary: List transactions
+      tags:
+        - Transactions
+      parameters:
+        - name: acc_num
+          in: query
+          required: true
+          type: string
+        - name: start_dt
+          in: query
+          required: true
+          type: string
+        - name: end_dt
+          in: query
+          required: true
+          type: string
+        - name: offset
+          in: query
+          required: false
+          type: number
+        - name: limit
+          in: query
+          required: false
+          type: number
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/transaction-output'
+          examples:
+            application/json:
+              - Txn_Id: 56539511
+                Txn_Type: Dr
+                Status_Time: '2017-11-25 22:17:32'
+                Acc_Num: AC001
+                Txn_Details: Transfer/Withdrawal
+                Txn_Amout: 22.51
+                Txn_Time: '2017-11-25 21:15:32'
+                Txn_Status: Completed
+              - Txn_Id: 56555511
+                Txn_Type: Dr
+                Status_Time: '2017-11-23 12:15:32'
+                Acc_Num: AC001
+                Txn_Details: Transfer/Withdrawal
+                Txn_Amout: 22.53
+                Txn_Time: '2017-11-23 12:15:00'
+                Txn_Status: Pending
+              - Txn_Id: 56539511
+                Txn_Type: Dr
+                Status_Time: '2017-10-25 22:19:32'
+                Acc_Num: AC001
+                Txn_Details: Transfer/Withdrawal
+                Txn_Amout: 22.51
+                Txn_Time: '2017-11-25 21:15:32'
+                Txn_Status: Failed
+        '404':
+          description: ''
+    post:
+      operationId: POST-transaction
+      summary: Create transaction
+      tags:
+        - Transactions
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/transaction-input'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/transaction-output'
+definitions:
+  transaction-input:
+    title: transaction Input
+    type: object
+    properties:
+      Acc_Num:
+        type: string
+      Txn_Time:
+        type: string
+      Txn_Type:
+        type: string
+      Txn_Details:
+        type: string
+      Txn_Amout:
+        type: number
+      Txn_Status:
+        type: string
+      Status_Time:
+        type: string
+  transaction-output:
+    title: transaction Output
+    allOf:
+      - type: object
+        properties:
+          Txn_Id:
+            type: integer
+        required:
+          - Txn_Id
+      - $ref: '#/definitions/transaction-input'
