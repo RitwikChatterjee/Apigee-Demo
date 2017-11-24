@@ -78,7 +78,8 @@ paths:
       tags:
       - "Transactions"
       summary: "List transactions"
-      operationId: "LIST-transactions"
+      # operationId: "LIST-transactions"
+      operationId: "lISTTransactions"
       parameters:
       - name: "acc_num"
         in: "query"
