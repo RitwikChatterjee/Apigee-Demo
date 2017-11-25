@@ -1,0 +1,18 @@
+#1. List of potential machine types
+gcloud sql tiers list
+
+#2. Create instance
+#gcloud sql instances create [INSTANCE_NAME] --tier=[MACHINE_TYPE] --region=[REGION]
+gcloud sql instances create apigee-demo-1 --tier=db-f1-micro --region=us-west1
+
+#3. Set the password for the "root@%" MySQL user:
+#gcloud sql users set-password root % --instance [INSTANCE_NAME] --password [PASSWORD]
+gcloud sql users set-password root % --instance apigee-demo-1 --password admin
+
+#4. Describe an instance
+#gcloud sql instances describe [INSTANCE_NAME]
+gcloud sql instances describe apigee-demo-1
+
+#5. Create an users
+#gcloud sql users create [USER_NAME] [HOST] --instance=[INSTANCE_NAME] --password=[PASSWORD]
+gcloud sql users create app_usr % --instance=apigee-demo-1 --password=app_user

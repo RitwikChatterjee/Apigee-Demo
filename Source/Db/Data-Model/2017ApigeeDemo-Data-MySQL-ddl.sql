@@ -1,4 +1,4 @@
-CREATE TABLE Acc_txn
+CREATE TABLE Acc_Txn
 (
   Txn_Id integer NOT NULL AUTO_INCREMENT,
   Acc_Num char(5) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE Acc_txn
   Txn_Amount float NOT NULL,
   Txn_Status varchar(10) NOT NULL,
   Status_Time datetime NOT NULL,
-  CONSTRAINT PK_Acc_txn PRIMARY KEY (Txn_Id)
+  CONSTRAINT PK_Acc_Txn PRIMARY KEY (Txn_Id)
 );
 
 CREATE TABLE Customer
@@ -55,8 +55,8 @@ CREATE TABLE MFA_Inflight
   CONSTRAINT PK_MFA_Inflight PRIMARY KEY (InFlight_Id)
 );
 
-CREATE INDEX IX_Acc_txn_Acc
-  ON Acc_txn (Acc_Num);
+CREATE INDEX IX_Acc_Txn_Acc
+  ON Acc_Txn (Acc_Num);
 
 CREATE INDEX IX_Customer_Acc_
   ON Customer_Acc (Customer_Id);
