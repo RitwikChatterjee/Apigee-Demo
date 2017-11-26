@@ -1,10 +1,14 @@
 'use strict';
 
+// START changes
+const handlers = require('../data-access/handlers');
+// END changes
+
 exports.dELETETransaction = function(args, res, next) {
   /**
    * Delete transaction
    *
-   * id String 
+   * id String
    * no response value expected for this operation
    **/
   res.end();
@@ -14,7 +18,7 @@ exports.gETTransaction = function(args, res, next) {
   /**
    * Get transaction
    *
-   * id String 
+   * id String
    * returns transaction-output
    **/
   var examples = {};
@@ -40,14 +44,17 @@ exports.lISTTransactions = function(args, res, next) {
   /**
    * List transactions
    *
-   * acc_num String 
-   * start_dt String 
-   * end_dt String 
+   * acc_num String
+   * start_dt String
+   * end_dt String
    * offset BigDecimal  (optional)
    * limit BigDecimal  (optional)
    * returns List
    **/
   var examples = {};
+
+// START changes
+/*
   examples['application/json'] = [ {
   "Txn_Id" : 56539511,
   "Txn_Type" : "Dr",
@@ -76,12 +83,34 @@ exports.lISTTransactions = function(args, res, next) {
   "Txn_Time" : "2017-11-25 21:15:32",
   "Txn_Status" : "Failed"
 } ];
+*/
+console.log(args.acc_num.value);
+
+handlers.getTransactions(args.acc_num.value, args.start_dt.value, args.end_dt.value, function (error, rows) {
+  if (error) {
+    console.error("Error caught:", error);
+    res.end("Sorry, error received. Try back after sometime");
+  } else {
+    examples['application/json'] = rows;
+
+    if (Object.keys(examples).length > 0) {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+    } else {
+      res.end();
+    }
+  }
+})
+
+/*
   if (Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
   } else {
     res.end();
   }
+  */
+  // END changes
 }
 
 exports.pOSTTransaction = function(args, res, next) {
@@ -105,7 +134,7 @@ exports.pUTTransaction = function(args, res, next) {
   /**
    * Update transaction
    *
-   * id String 
+   * id String
    * body Transaction-input  (optional)
    * returns transaction-output
    **/
@@ -118,4 +147,3 @@ exports.pUTTransaction = function(args, res, next) {
     res.end();
   }
 }
-
