@@ -1,0 +1,62 @@
+{
+    "action": "get",
+    "application": "45a1d62c-d275-11e7-b8f2-0eec2415f3df",
+    "params": {},
+    "path": "/customers",
+    "uri": "https://apibaas-trial.apigee.net/ritwiktchatterjee/apigeedemo-test/customers",
+    "entities": [
+        {
+            "uuid": "74711ed0-d30f-11e7-9839-0ab8741a129c",
+            "type": "customer",
+            "created": 1511744898963,
+            "modified": 1511746901754,
+            "data": {
+                "l_name": "Gopal",
+                "f_name": "Naru",
+                "contacts": [
+                    {
+                        "contact_type": "email",
+                        "preference": "Y",
+                        "contact_info": "naru.gopal@gmail.com"
+                    }
+                ]
+            },
+            "metadata": {
+                "path": "/customers/74711ed0-d30f-11e7-9839-0ab8741a129c",
+                "size": 705,
+                "connections": {
+                    "owns": "/customers/74711ed0-d30f-11e7-9839-0ab8741a129c/owns"
+                }
+            }
+        },
+        {
+            "uuid": "1835b5ed-d310-11e7-862e-12c1e35638f0",
+            "type": "customer",
+            "created": 1511745173720,
+            "modified": 1511745173720,
+            "data": {
+                "l_name": "Goyala",
+                "f_name": "Kinu",
+                "accounts": [
+                    "AC002"
+                ],
+                "contacts": [
+                    {
+                        "contact_type": "email",
+                        "preference": "Y",
+                        "contact_info": "kinu.goyala@gmail.com"
+                    }
+                ]
+            },
+            "metadata": {
+                "path": "/customers/1835b5ed-d310-11e7-862e-12c1e35638f0",
+                "size": 643
+            }
+        }
+    ],
+    "timestamp": 1511747280669,
+    "duration": 40,
+    "organization": "ritwiktchatterjee",
+    "applicationName": "apigeedemo-test",
+    "count": 2
+}

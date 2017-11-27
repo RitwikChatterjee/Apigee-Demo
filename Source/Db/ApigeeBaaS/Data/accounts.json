@@ -1,0 +1,68 @@
+{
+    "action": "get",
+    "application": "45a1d62c-d275-11e7-b8f2-0eec2415f3df",
+    "params": {},
+    "path": "/accounts",
+    "uri": "https://apibaas-trial.apigee.net/ritwiktchatterjee/apigeedemo-test/accounts",
+    "entities": [
+        {
+            "uuid": "1afe8b8e-d316-11e7-ba80-0ad881f403bf",
+            "type": "account",
+            "created": 1511747755372,
+            "modified": 1511747755372,
+            "data": {
+                "acc_bal": 500,
+                "bal_updt_ts": "2017-11-26 18:26:22",
+                "customer_id": "1835b5ed-d310-11e7-862e-12c1e35638f0"
+            },
+            "metadata": {
+                "path": "/accounts/1afe8b8e-d316-11e7-ba80-0ad881f403bf",
+                "size": 481,
+                "connecting": {
+                    "owns": "/accounts/1afe8b8e-d316-11e7-ba80-0ad881f403bf/connecting/owns"
+                }
+            }
+        },
+        {
+            "uuid": "160d6ca3-d312-11e7-b8f2-0eec2415f3df",
+            "type": "account",
+            "created": 1511746029094,
+            "modified": 1511746029094,
+            "data": {
+                "acc_bal": 500,
+                "bal_updt_ts": "2017-11-26 18:26:22",
+                "customer_id": "74711ed0-d30f-11e7-9839-0ab8741a129c"
+            },
+            "metadata": {
+                "path": "/accounts/160d6ca3-d312-11e7-b8f2-0eec2415f3df",
+                "size": 481,
+                "connecting": {
+                    "owns": "/accounts/160d6ca3-d312-11e7-b8f2-0eec2415f3df/connecting/owns"
+                }
+            }
+        },
+        {
+            "uuid": "c281a3c0-d311-11e7-b8f2-0eec2415f3df",
+            "type": "account",
+            "created": 1511745888927,
+            "modified": 1511745888927,
+            "data": {
+                "acc_bal": 500,
+                "bal_updt_ts": "2017-11-26 18:19:22",
+                "customer_id": "1835b5ed-d310-11e7-862e-12c1e35638f0"
+            },
+            "metadata": {
+                "path": "/accounts/c281a3c0-d311-11e7-b8f2-0eec2415f3df",
+                "size": 481,
+                "connecting": {
+                    "owns": "/accounts/c281a3c0-d311-11e7-b8f2-0eec2415f3df/connecting/owns"
+                }
+            }
+        }
+    ],
+    "timestamp": 1511748717872,
+    "duration": 39,
+    "organization": "ritwiktchatterjee",
+    "applicationName": "apigeedemo-test",
+    "count": 3
+}
