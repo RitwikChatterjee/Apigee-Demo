@@ -1,0 +1,601 @@
+---
+swagger: "2.0"
+info:
+  description: "These are the APIs to be exposed by the core banking app"
+  version: "1.0.0"
+  title: "Apigee Demo Core APIs"
+  contact:
+    email: "ritwik.t.chatterjee@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "virtserver.swaggerhub.com"
+basePath: "/apigeedemo_core/1.0.0"
+tags:
+- name: "customers"
+  description: "Customers related APIs"
+- name: "accounts"
+  description: "Accounts related APIs"
+- name: "customer-accounts"
+  description: "Customer-account related APIs"
+schemes:
+- "https"
+paths:
+  /customers:
+    get:
+      tags:
+      - "customers"
+      summary: "List Customers"
+      description: "List of all customers"
+      operationId: "customersGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "limit"
+        in: "query"
+        required: false
+        type: "integer"
+        default: 10
+        maximum: 25
+        minimum: 1
+        format: "int32"
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        default: 0
+        minimum: 0
+        format: "int32"
+      responses:
+        200:
+          description: "List of all customers"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Customer"
+        400:
+          description: "Bad request error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+      x-swagger-router-controller: "Customers"
+    post:
+      tags:
+      - "customers"
+      summary: "Create a customer"
+      description: "Creates a new customer"
+      operationId: "customersPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Customer"
+        description: "Customer to add"
+        required: false
+        schema:
+          $ref: "#/definitions/Customer"
+      responses:
+        201:
+          description: "customer created"
+        400:
+          description: "Bad request error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+      x-swagger-router-controller: "Customers"
+  /customers/{Id}:
+    get:
+      tags:
+      - "customers"
+      summary: "Get Customer"
+      description: "Gets a particular customer"
+      operationId: "customersIdGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "Unique Id of the record"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Customer requested"
+          schema:
+            $ref: "#/definitions/Customer"
+        400:
+          description: "Bad request error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        404:
+          description: "Error when requested resource not found"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+      x-swagger-router-controller: "Customers"
+    put:
+      tags:
+      - "customers"
+      summary: "Update a customer"
+      description: "Updates an existing customer"
+      operationId: "customersIdPUT"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "Unique Id of the record"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "Customer"
+        description: "Updated customer"
+        required: false
+        schema:
+          $ref: "#/definitions/Customer"
+      responses:
+        200:
+          description: "customer updated"
+        400:
+          description: "Bad request error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        404:
+          description: "Error when requested resource not found"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+      x-swagger-router-controller: "Customers"
+  /accounts:
+    get:
+      tags:
+      - "accounts"
+      summary: "List of Accounts"
+      description: "List of all accounts"
+      operationId: "accountsGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "limit"
+        in: "query"
+        required: false
+        type: "integer"
+        default: 10
+        maximum: 25
+        minimum: 1
+        format: "int32"
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        default: 0
+        minimum: 0
+        format: "int32"
+      responses:
+        200:
+          description: "List of all accounts"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Account"
+        400:
+          description: "Bad request error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        404:
+          description: "Error when requested resource not found"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+      x-swagger-router-controller: "Accounts"
+    post:
+      tags:
+      - "accounts"
+      summary: "Create an account"
+      description: "Creates a new account. TODO - should I have this? Problem for\
+        \ Usergrid"
+      operationId: "accountsPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Account"
+        description: "Updated account"
+        required: false
+        schema:
+          $ref: "#/definitions/Account"
+      responses:
+        201:
+          description: "customer created"
+        400:
+          description: "Bad request error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        404:
+          description: "Error when requested resource not found"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+      x-swagger-router-controller: "Accounts"
+  /accounts/{Id}:
+    get:
+      tags:
+      - "accounts"
+      summary: "Get a particular Account"
+      description: "Gets a particular account"
+      operationId: "accountsIdGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "Unique Id of the record"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Account requested"
+          schema:
+            $ref: "#/definitions/Account"
+        400:
+          description: "Bad request error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        404:
+          description: "Error when requested resource not found"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+      x-swagger-router-controller: "Accounts"
+    put:
+      tags:
+      - "accounts"
+      summary: "Update an account"
+      description: "Updates an existing account"
+      operationId: "accountsIdPUT"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "Unique Id of the record"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "Account"
+        description: "Updated account"
+        required: false
+        schema:
+          $ref: "#/definitions/Account"
+      responses:
+        200:
+          description: "account updated"
+        400:
+          description: "Bad request error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        404:
+          description: "Error when requested resource not found"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+      x-swagger-router-controller: "Accounts"
+  /customers/{PId}/accounts:
+    get:
+      tags:
+      - "customer-accounts"
+      summary: "List of Accounts for particular customers"
+      description: "List of all accounts for particular customers"
+      operationId: "customersPIdAccountsGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "PId"
+        in: "path"
+        description: "Unique Id of the parent record"
+        required: true
+        type: "string"
+      - name: "limit"
+        in: "query"
+        required: false
+        type: "integer"
+        default: 10
+        maximum: 25
+        minimum: 1
+        format: "int32"
+      - name: "offset"
+        in: "query"
+        required: false
+        type: "integer"
+        default: 0
+        minimum: 0
+        format: "int32"
+      responses:
+        200:
+          description: "List of all accounts for the given customer"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Account"
+        400:
+          description: "Bad request error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        404:
+          description: "Error when requested resource not found"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+      x-swagger-router-controller: "Customeraccounts"
+    post:
+      tags:
+      - "customer-accounts"
+      summary: "Create an account for a customer"
+      description: "Creates a new account for a given customer"
+      operationId: "customersPIdAccountsPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "PId"
+        in: "path"
+        description: "Unique Id of the parent record"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "Account"
+        description: "Updated account"
+        required: false
+        schema:
+          $ref: "#/definitions/Account"
+      responses:
+        201:
+          description: "customer created"
+        400:
+          description: "Bad request error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        404:
+          description: "Error when requested resource not found"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+      x-swagger-router-controller: "Customeraccounts"
+  /customers/{PId}/accounts/{Id}:
+    get:
+      tags:
+      - "customer-accounts"
+      summary: "Get Account for Customer"
+      description: "Gets a particular account for a customer"
+      operationId: "customersPIdAccountsIdGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "PId"
+        in: "path"
+        description: "Unique Id of the parent record"
+        required: true
+        type: "string"
+      - name: "Id"
+        in: "path"
+        description: "Unique Id of the record"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Account requested"
+          schema:
+            $ref: "#/definitions/Account"
+        400:
+          description: "Bad request error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        404:
+          description: "Error when requested resource not found"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+      x-swagger-router-controller: "Customeraccounts"
+    put:
+      tags:
+      - "customer-accounts"
+      summary: "Update an account for a customer"
+      description: "Updates an existing account for a customer"
+      operationId: "customersPIdAccountsIdPUT"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "PId"
+        in: "path"
+        description: "Unique Id of the parent record"
+        required: true
+        type: "string"
+      - name: "Id"
+        in: "path"
+        description: "Unique Id of the record"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "Account"
+        description: "Updated account"
+        required: false
+        schema:
+          $ref: "#/definitions/Account"
+      responses:
+        200:
+          description: "account updated"
+        400:
+          description: "Bad request error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        404:
+          description: "Error when requested resource not found"
+          schema:
+            $ref: "#/definitions/Error-msg"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error-msg"
+      x-swagger-router-controller: "Customeraccounts"
+definitions:
+  Error-msg:
+    type: "object"
+    required:
+    - "code"
+    - "message"
+    properties:
+      code:
+        type: "string"
+      message:
+        type: "string"
+    description: "Error message"
+  Customer:
+    type: "object"
+    required:
+    - "f_name"
+    - "l_name"
+    properties:
+      customer_id:
+        type: "string"
+        example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+      f_name:
+        type: "string"
+        description: "First name"
+      l_name:
+        type: "string"
+        description: "Last name"
+      contacts:
+        type: "array"
+        items:
+          $ref: "#/definitions/Contact"
+  Contact:
+    required:
+    - "contact_info"
+    - "contact_type"
+    properties:
+      contact_type:
+        type: "string"
+        example: "email"
+        description: "Possible types can be email, phone, address"
+      contact_info:
+        type: "string"
+        example: "abc@mail.com"
+      preference:
+        type: "string"
+        example: "Y"
+        description: "Whether this is a preferred contact for communication"
+  Account:
+    required:
+    - "acc_bal"
+    - "bal_updt_ts"
+    - "customer_id"
+    properties:
+      acc_id:
+        type: "string"
+        example: "a222g1ee-6c54-4b01-90e6-d701748f0851"
+      acc_bal:
+        type: "number"
+        format: "float"
+        example: 500.0
+        description: "Account Balance"
+      bal_updt_ts:
+        type: "string"
+        description: "When the account balance was last updated"
+      customer_id:
+        type: "string"
+        example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+        description: "Account owner id"
+parameters:
+  PId:
+    name: "PId"
+    in: "path"
+    description: "Unique Id of the parent record"
+    required: true
+    type: "string"
+  Id:
+    name: "Id"
+    in: "path"
+    description: "Unique Id of the record"
+    required: true
+    type: "string"
+  off-set:
+    name: "offset"
+    in: "query"
+    required: false
+    type: "integer"
+    default: 0
+    minimum: 0
+    format: "int32"
+  page-size:
+    name: "limit"
+    in: "query"
+    required: false
+    type: "integer"
+    default: 10
+    maximum: 25
+    minimum: 1
+    format: "int32"
+  Account:
+    in: "body"
+    name: "Account"
+    description: "Updated account"
+    required: false
+    schema:
+      $ref: "#/definitions/Account"
+responses:
+  400-bad-request:
+    description: "Bad request error"
+    schema:
+      $ref: "#/definitions/Error-msg"
+  404-not-found:
+    description: "Error when requested resource not found"
+    schema:
+      $ref: "#/definitions/Error-msg"
+  500-internal-error:
+    description: "Internal server error"
+    schema:
+      $ref: "#/definitions/Error-msg"

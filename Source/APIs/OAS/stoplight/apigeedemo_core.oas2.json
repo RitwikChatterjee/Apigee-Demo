@@ -1,0 +1,345 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Apigee Demo Core APIs",
+    "version": "1.0",
+    "description": "These are the APIs to be exposed by the core banking app"
+  },
+  "host": "example.com",
+  "paths": {
+    "/customers": {
+      "get": {
+        "operationId": "findCustomers",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "title": "Customer Basic Output",
+                "description": "The properties that are included when fetching a list of Customers.",
+                "allOf": [
+                  {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  {
+                    "title": "Customer Common",
+                    "description": "The properties that are shared amongst all versions of the Customer model.",
+                    "type": "object",
+                    "properties": {},
+                    "$ref": "https://exporter.stoplight.io/3518/master/ApigeeDemo_datamodel.oas2.yml#/definitions/customer"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "description": "List of all customers",
+        "tags": [
+          "customers"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "summary": "listCustomers",
+        "parameters": [
+          {
+            "in": "query",
+            "type": "integer",
+            "name": "limit"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "type": "integer"
+          }
+        ]
+      },
+      "post": {
+        "operationId": "createCustomer",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "title": "Customer Input",
+              "description": "The properties that are allowed when creating or updating a Customer.",
+              "allOf": [
+                {
+                  "title": "Customer Common",
+                  "description": "The properties that are shared amongst all versions of the Customer model.",
+                  "type": "object",
+                  "properties": {},
+                  "$ref": "https://exporter.stoplight.io/3518/master/ApigeeDemo_datamodel.oas2.yml#/definitions/customer"
+                },
+                {
+                  "type": "object",
+                  "properties": {}
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "title": "Customer Detailed Output",
+              "description": "The properties that are included when fetching a single Customer.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/customer-output"
+                },
+                {
+                  "type": "object",
+                  "properties": {}
+                }
+              ]
+            }
+          }
+        },
+        "summary": "createCustomer",
+        "description": "Create a new customer",
+        "tags": [
+          "customers"
+        ]
+      }
+    },
+    "/customers/{customerId}": {
+      "parameters": [
+        {
+          "name": "customerId",
+          "in": "path",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "operationId": "getCustomer",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "title": "Customer Detailed Output",
+              "description": "The properties that are included when fetching a single Customer.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/customer-output"
+                },
+                {
+                  "type": "object",
+                  "properties": {}
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "When passed customer id not found",
+            "schema": {
+              "type": "object",
+              "title": "error",
+              "description": "Error message",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "help": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "customers"
+        ]
+      },
+      "put": {
+        "operationId": "updateCustomer",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "title": "Customer Input",
+              "description": "The properties that are allowed when creating or updating a Customer.",
+              "allOf": [
+                {
+                  "title": "Customer Common",
+                  "description": "The properties that are shared amongst all versions of the Customer model.",
+                  "type": "object",
+                  "properties": {},
+                  "$ref": "https://exporter.stoplight.io/3518/master/ApigeeDemo_datamodel.oas2.yml#/definitions/customer"
+                },
+                {
+                  "type": "object",
+                  "properties": {}
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "title": "Customer Detailed Output",
+              "description": "The properties that are included when fetching a single Customer.",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/customer-output"
+                },
+                {
+                  "type": "object",
+                  "properties": {}
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Error when the passed customer Id is not existing in the system",
+            "schema": {
+              "type": "object",
+              "title": "error",
+              "description": "Error message",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "help": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "customers"
+        ]
+      },
+      "delete": {
+        "operationId": "deleteCustomer",
+        "responses": {
+          "204": {
+            "description": "Delete successful"
+          }
+        },
+        "tags": [
+          "customers"
+        ]
+      }
+    }
+  },
+  "basePath": "/v1",
+  "definitions": {
+    "customer-common": {
+      "type": "object",
+      "title": "customer",
+      "description": "Customer entity within the application",
+      "properties": {
+        "customer_id": {
+          "type": "string"
+        },
+        "f_name": {
+          "type": "string"
+        },
+        "l_name": {
+          "type": "string"
+        },
+        "contacts": {
+          "type": "array",
+          "description": "List of customer contacts",
+          "items": {
+            "type": "object",
+            "title": "contact",
+            "description": "Customer contact entity",
+            "properties": {
+              "contact_type": {
+                "type": "string",
+                "description": "Possible types: emaill, phone, address"
+              },
+              "contact_info": {
+                "type": "string"
+              },
+              "preference": {
+                "type": "string",
+                "description": "Whether this is a preferred contact for communication"
+              }
+            },
+            "required": [
+              "contact_type",
+              "contact_info"
+            ]
+          }
+        }
+      },
+      "required": [
+        "f_name",
+        "l_name"
+      ]
+    },
+    "customer-input": {
+      "title": "Customer Input",
+      "description": "The properties that are allowed when creating or updating a Customer.",
+      "allOf": [
+        {
+          "title": "Customer Common",
+          "description": "The properties that are shared amongst all versions of the Customer model.",
+          "type": "object",
+          "properties": {},
+          "$ref": "https://exporter.stoplight.io/3518/master/ApigeeDemo_datamodel.oas2.yml#/definitions/customer"
+        },
+        {
+          "type": "object",
+          "properties": {}
+        }
+      ]
+    },
+    "customer-output": {
+      "title": "Customer Basic Output",
+      "description": "The properties that are included when fetching a list of Customers.",
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {}
+        },
+        {
+          "title": "Customer Common",
+          "description": "The properties that are shared amongst all versions of the Customer model.",
+          "type": "object",
+          "properties": {},
+          "$ref": "https://exporter.stoplight.io/3518/master/ApigeeDemo_datamodel.oas2.yml#/definitions/customer"
+        }
+      ]
+    },
+    "customer-output-detailed": {
+      "title": "Customer Detailed Output",
+      "description": "The properties that are included when fetching a single Customer.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/customer-output"
+        },
+        {
+          "type": "object",
+          "properties": {}
+        }
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "customers"
+    }
+  ],
+  "responses": {}
+}

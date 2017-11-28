@@ -1,0 +1,440 @@
+swagger: '2.0'
+info:
+  description: These are the APIs to be exposed by the core banking app
+  version: 1.0.0
+  title: Apigee Demo Core APIs
+  # put the contact info for your development or API team
+  contact:
+    email: ritwik.t.chatterjee@gmail.com
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+- name: customers
+  description: Customers related APIs
+- name: accounts
+  description: Accounts related APIs
+- name: customer-accounts
+  description: Customer-account related APIs
+
+paths:
+  /customers:
+    get:
+      tags:
+      - customers
+      summary: List Customers
+      # operationId: listCustomers
+      description: List of all customers
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/page-size'
+      - $ref: '#/parameters/off-set'
+      responses:
+        200:
+          description: List of all customers
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Customer'
+        400:
+          $ref : '#/responses/400-bad-request'
+        500:
+          $ref : '#/responses/500-internal-error'
+    post:
+      tags:
+      - customers
+      summary: Create a customer
+      # operationId: createCustomer
+      description: Creates a new customer
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Customer
+        description: Customer to add
+        schema:
+          $ref: '#/definitions/Customer'
+      responses:
+        201:
+          description: customer created
+        400:
+          $ref : '#/responses/400-bad-request'
+        500:
+          $ref : '#/responses/500-internal-error'
+
+  /customers/{Id}:
+    get:
+      tags:
+      - customers
+      summary: Get Customer
+      # operationId: getCustomer
+      description: Gets a particular customer
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/Id'
+      responses:
+        200:
+          description: Customer requested
+          schema:
+            $ref: '#/definitions/Customer'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+    put:
+      tags:
+      - customers
+      summary: Update a customer
+      # operationId: updateCustomer
+      description: Updates an existing customer
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/Id'
+      - in: body
+        name: Customer
+        description: Updated customer
+        schema:
+          $ref: '#/definitions/Customer'
+      responses:
+        200:
+          description: customer updated
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+
+  /accounts:
+    get:
+      tags:
+      - accounts
+      summary: List of Accounts
+      # operationId: listAccounts
+      description: List of all accounts
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/page-size'
+      - $ref: '#/parameters/off-set'
+      responses:
+        200:
+          description: List of all accounts
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Account'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+    post:
+      tags:
+      - accounts
+      summary: Create an account
+      # operationId: createAccount
+      description: Creates a new account. TODO - should I have this? Problem for Usergrid
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/Account'
+      responses:
+        201:
+          description: customer created
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+
+  /accounts/{Id}:
+    get:
+      tags:
+      - accounts
+      summary: Get a particular Account
+      # operationId: getAccount
+      description: Gets a particular account
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/Id'
+      responses:
+        200:
+          description: Account requested
+          schema:
+            $ref: '#/definitions/Account'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+    put:
+      tags:
+      - accounts
+      summary: Update an account
+      # operationId: updateAccount
+      description: Updates an existing account
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/Id'
+      - $ref: '#/parameters/Account'
+      responses:
+        200:
+          description: account updated
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+
+  /customers/{PId}/accounts:
+    get:
+      tags:
+      - customer-accounts
+      summary: List of Accounts for particular customers
+      # operationId: listCustomerAccounts
+      description: List of all accounts for particular customers
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/PId'
+      - $ref: '#/parameters/page-size'
+      - $ref: '#/parameters/off-set'
+      responses:
+        200:
+          description: List of all accounts for the given customer
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Account'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+    post:
+      tags:
+      - customer-accounts
+      summary: Create an account for a customer
+      # operationId: createCustomerAccount
+      description: Creates a new account for a given customer
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/PId'
+      - $ref: '#/parameters/Account'
+      responses:
+        201:
+          description: customer created
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+
+  /customers/{PId}/accounts/{Id}:
+    get:
+      tags:
+      - customer-accounts
+      summary: Get Account for Customer
+      # operationId: getCustomerAccount
+      description: Gets a particular account for a customer
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/PId'
+      - $ref: '#/parameters/Id'
+      responses:
+        200:
+          description: Account requested
+          schema:
+            $ref: '#/definitions/Account'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+    put:
+      tags:
+      - customer-accounts
+      summary: Update an account for a customer
+      # operationId: updateCustomerAccount
+      description: Updates an existing account for a customer
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/PId'
+      - $ref: '#/parameters/Id'
+      - $ref: '#/parameters/Account'
+      responses:
+        200:
+          description: account updated
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+
+
+definitions:
+  Error-msg:
+    description: Error message
+    type: object
+    required:
+    - code
+    - message
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+      help:
+        type: string
+  Customer:
+    type: object
+    required:
+    - f_name
+    - l_name
+    properties:
+      customer_id:
+        type: string
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      f_name:
+        type: string
+        description: First name
+      l_name:
+        type: string
+        description: Last name
+      contacts:
+        type: array
+        items:
+          $ref: '#/definitions/Contact'
+  Contact:
+    required:
+    - contact_type
+    - contact_info
+    properties:
+      contact_type:
+        type: string
+        description: Possible types can be email, phone, address
+        example: email
+      contact_info:
+        type: string
+        example:  abc@mail.com
+      preference:
+        type: string
+        description: Whether this is a preferred contact for communication
+        example: Y
+  Account:
+    required:
+    - acc_bal
+    - bal_updt_ts
+    - customer_id
+    properties:
+      acc_id:
+        type: string
+        example: a222g1ee-6c54-4b01-90e6-d701748f0851
+      acc_bal:
+        type: number
+        format: float
+        description: Account Balance
+        example: 500.00
+      bal_updt_ts:
+        type: string
+        # format: date-time
+        description: When the account balance was last updated
+      customer_id:
+        type: string
+        description: Account owner id
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+
+
+parameters:
+  PId:
+    in: path
+    name: PId
+    description: Unique Id of the parent record
+    type: string
+    required: true
+  Id:
+    in: path
+    name: Id
+    description: Unique Id of the record
+    type: string
+    required: true
+  off-set:
+    name: offset
+    in: query
+    type: integer
+    format: int32
+    minimum: 0
+    default: 0
+  page-size:
+    name: limit
+    in: query
+    type: integer
+    format: int32
+    minimum: 1
+    maximum: 25
+    default: 10
+  Account:
+    in: body
+    name: Account
+    description: Updated account
+    schema:
+      $ref: '#/definitions/Account'
+
+
+responses:
+  400-bad-request:
+    description: Bad request error
+    schema:
+      $ref: '#/definitions/Error-msg'
+  404-not-found:
+    description: Error when requested resource not found
+    schema:
+      $ref: '#/definitions/Error-msg'
+  500-internal-error:
+    description: Internal server error
+    schema:
+      $ref: '#/definitions/Error-msg'
+
+
+
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+# basePath: /apigeedemo_core/1.0.0
+schemes:
+ - https
+# Added by API Auto Mocking Plugin
+basePath: /apigeedemo_core/1.0.0
