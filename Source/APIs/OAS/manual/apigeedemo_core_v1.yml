@@ -63,6 +63,8 @@ paths:
       responses:
         201:
           description: customer created
+          schema:
+            $ref: '#/definitions/Customer'
         400:
           $ref : '#/responses/400-bad-request'
         500:
@@ -104,12 +106,14 @@ paths:
       - $ref: '#/parameters/Id'
       - in: body
         name: Customer
-        description: Updated customer
+        description: Updated customer value
         schema:
           $ref: '#/definitions/Customer'
       responses:
         200:
-          description: customer updated
+          description: Same customer after updation
+          schema:
+            $ref: '#/definitions/Customer'
         400:
           $ref : '#/responses/400-bad-request'
         404:
@@ -157,6 +161,8 @@ paths:
       responses:
         201:
           description: customer created
+          schema:
+            $ref: '#/definitions/Account'
         400:
           $ref : '#/responses/400-bad-request'
         404:
@@ -202,6 +208,8 @@ paths:
       responses:
         200:
           description: account updated
+          schema:
+            $ref: '#/definitions/Account'
         400:
           $ref : '#/responses/400-bad-request'
         404:
@@ -251,6 +259,8 @@ paths:
       responses:
         201:
           description: customer created
+          schema:
+            $ref: '#/definitions/Account'
         400:
           $ref : '#/responses/400-bad-request'
         404:
@@ -298,6 +308,8 @@ paths:
       responses:
         200:
           description: account updated
+          schema:
+            $ref: '#/definitions/Account'
         400:
           $ref : '#/responses/400-bad-request'
         404:
@@ -317,8 +329,6 @@ definitions:
       code:
         type: string
       message:
-        type: string
-      help:
         type: string
   Customer:
     type: object
@@ -432,9 +442,7 @@ responses:
 
 
 # Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-# basePath: /apigeedemo_core/1.0.0
+host: localhost:8080
+basePath: /apigeedemo_core/v1
 schemes:
  - https
-# Added by API Auto Mocking Plugin
-basePath: /apigeedemo_core/1.0.0

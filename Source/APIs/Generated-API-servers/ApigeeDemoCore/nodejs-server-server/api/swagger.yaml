@@ -9,8 +9,8 @@ info:
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "virtserver.swaggerhub.com"
-basePath: "/apigeedemo_core/1.0.0"
+host: "localhost:8080"
+basePath: "/apigeedemo_core/v1"
 tags:
 - name: "customers"
   description: "Customers related APIs"
@@ -82,6 +82,8 @@ paths:
       responses:
         201:
           description: "customer created"
+          schema:
+            $ref: "#/definitions/Customer"
         400:
           description: "Bad request error"
           schema:
@@ -142,13 +144,15 @@ paths:
         type: "string"
       - in: "body"
         name: "Customer"
-        description: "Updated customer"
+        description: "Updated customer value"
         required: false
         schema:
           $ref: "#/definitions/Customer"
       responses:
         200:
-          description: "customer updated"
+          description: "Same customer after updation"
+          schema:
+            $ref: "#/definitions/Customer"
         400:
           description: "Bad request error"
           schema:
@@ -228,6 +232,8 @@ paths:
       responses:
         201:
           description: "customer created"
+          schema:
+            $ref: "#/definitions/Account"
         400:
           description: "Bad request error"
           schema:
@@ -299,6 +305,8 @@ paths:
       responses:
         200:
           description: "account updated"
+          schema:
+            $ref: "#/definitions/Account"
         400:
           description: "Bad request error"
           schema:
@@ -387,6 +395,8 @@ paths:
       responses:
         201:
           description: "customer created"
+          schema:
+            $ref: "#/definitions/Account"
         400:
           description: "Bad request error"
           schema:
@@ -468,6 +478,8 @@ paths:
       responses:
         200:
           description: "account updated"
+          schema:
+            $ref: "#/definitions/Account"
         400:
           description: "Bad request error"
           schema:

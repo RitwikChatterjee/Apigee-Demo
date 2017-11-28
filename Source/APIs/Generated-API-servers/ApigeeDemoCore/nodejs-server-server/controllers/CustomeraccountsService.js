@@ -57,9 +57,21 @@ exports.customersPIdAccountsIdPUT = function(args, res, next) {
    * pId String Unique Id of the parent record
    * id String Unique Id of the record
    * account Account Updated account (optional)
-   * no response value expected for this operation
+   * returns Account
    **/
-  res.end();
+  var examples = {};
+  examples['application/json'] = {
+  "acc_bal" : 500.0,
+  "bal_updt_ts" : "aeiou",
+  "customer_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "acc_id" : "a222g1ee-6c54-4b01-90e6-d701748f0851"
+};
+  if (Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  } else {
+    res.end();
+  }
 }
 
 exports.customersPIdAccountsPOST = function(args, res, next) {
@@ -69,8 +81,20 @@ exports.customersPIdAccountsPOST = function(args, res, next) {
    *
    * pId String Unique Id of the parent record
    * account Account Updated account (optional)
-   * no response value expected for this operation
+   * returns Account
    **/
-  res.end();
+  var examples = {};
+  examples['application/json'] = {
+  "acc_bal" : 500.0,
+  "bal_updt_ts" : "aeiou",
+  "customer_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
+  "acc_id" : "a222g1ee-6c54-4b01-90e6-d701748f0851"
+};
+  if (Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  } else {
+    res.end();
+  }
 }
 
