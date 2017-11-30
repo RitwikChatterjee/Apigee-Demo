@@ -57,6 +57,11 @@ typings/
 # dotenv environment variables file
 .env
 
-# Apigee Proxy package
+# Apigee Proxy packages
 *.zip
 
+# Google app.yaml file
+app.yaml
+
+# Local environment setup file
+setlocalenvvar.bat
