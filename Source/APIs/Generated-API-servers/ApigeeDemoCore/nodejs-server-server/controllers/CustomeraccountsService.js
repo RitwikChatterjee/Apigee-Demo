@@ -1,5 +1,26 @@
 'use strict';
 
+// Fetch customeraccountsBiz
+const customeraccountsBiz = require('../biz/CustomeraccountsBiz');
+const logger = require('../util/AppLogger.js');
+
+// Send response to calling application
+function sendResponse(error, res, data) {
+  if (error) {
+    logger('error',error);
+    res.end("Sorry, error received. Try back after sometime");
+  } else {
+    if (Object.keys(data).length > 0) {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(data);
+    } else {
+      res.end();
+    }
+  }
+}
+
+
+
 exports.customersPIdAccountsGET = function(args, res, next) {
   /**
    * List of Accounts for particular customers
@@ -10,19 +31,10 @@ exports.customersPIdAccountsGET = function(args, res, next) {
    * offset Integer  (optional)
    * returns List
    **/
-  var examples = {};
-  examples['application/json'] = [ {
-  "acc_bal" : 500.0,
-  "bal_updt_ts" : "aeiou",
-  "customer_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
-  "acc_id" : "a222g1ee-6c54-4b01-90e6-d701748f0851"
-} ];
-  if (Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  } else {
-    res.end();
-  }
+   customeraccountsBiz.customersPIdAccountsGET(args, function(err, response, data){
+     res.statusCode = response.statusCode;
+     sendResponse(err, res, data);
+   });
 }
 
 exports.customersPIdAccountsIdGET = function(args, res, next) {
@@ -32,6 +44,21 @@ exports.customersPIdAccountsIdGET = function(args, res, next) {
    *
    * pId String Unique Id of the parent record
    * id String Unique Id of the record
+   * returns Account
+   **/
+   customeraccountsBiz.customersPIdAccountsIdGET(args, function(err, response, data){
+     res.statusCode = response.statusCode;
+     sendResponse(err, res, data);
+   });
+}
+
+exports.customersPIdAccountsPOST = function(args, res, next) {
+  /**
+   * Create an account for a customer
+   * Creates a new account for a given customer
+   *
+   * pId String Unique Id of the parent record
+   * account Account Updated account (optional)
    * returns Account
    **/
   var examples = {};
@@ -59,42 +86,8 @@ exports.customersPIdAccountsIdPUT = function(args, res, next) {
    * account Account Updated account (optional)
    * returns Account
    **/
-  var examples = {};
-  examples['application/json'] = {
-  "acc_bal" : 500.0,
-  "bal_updt_ts" : "aeiou",
-  "customer_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
-  "acc_id" : "a222g1ee-6c54-4b01-90e6-d701748f0851"
-};
-  if (Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  } else {
-    res.end();
-  }
+   customeraccountsBiz.customersPIdAccountsIdPUT(args, function(err, response, data){
+     res.statusCode = response.statusCode;
+     sendResponse(err, res, data);
+   });
 }
-
-exports.customersPIdAccountsPOST = function(args, res, next) {
-  /**
-   * Create an account for a customer
-   * Creates a new account for a given customer
-   *
-   * pId String Unique Id of the parent record
-   * account Account Updated account (optional)
-   * returns Account
-   **/
-  var examples = {};
-  examples['application/json'] = {
-  "acc_bal" : 500.0,
-  "bal_updt_ts" : "aeiou",
-  "customer_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
-  "acc_id" : "a222g1ee-6c54-4b01-90e6-d701748f0851"
-};
-  if (Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  } else {
-    res.end();
-  }
-}
-

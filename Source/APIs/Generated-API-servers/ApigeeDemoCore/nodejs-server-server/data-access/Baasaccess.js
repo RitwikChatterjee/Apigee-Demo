@@ -1,6 +1,9 @@
 'use strict';
-
+// Standard imports
 const restler = require('restler');
+
+// App imports
+const logger = require('../util/AppLogger.js');
 
 var baas_host = process.env.BAAS_HOST;
 var baas_app = process.env.BAAS_APP;
@@ -20,13 +23,15 @@ getAccessToken(function (data_token) {
 });
 
 function getAccessToken(cb) {
-  console.log("access_options::", access_options);
+
+  logger('debug',"access_options::" + JSON.stringify(access_options));
+
   restler.post(baas_host+'/'+baas_app+'/token', access_options).on('complete', function (data, response) {
     if (data instanceof Error) {
-      console.error(Error);
+      logger('error', JSON.stringify(data));
       this.retry(1000); //If fails, try after 1 second
     } else {
-      console.log("New access token", data.access_token);
+      logger('info',"New access token" + JSON.stringify(data.access_token));
       cb(data.access_token);
     }
   });
@@ -34,7 +39,7 @@ function getAccessToken(cb) {
 
 // Refresh if access token expired
 function refreshAccessToken() {
-  console.log("refreshAccessToken called. Resetting access_options");
+  logger('info',"refreshAccessToken called. Resetting access_options");
   // Having to reset access_options as it has changed by this time - not sure why
   access_options = {
     data: {
@@ -53,22 +58,21 @@ function refreshAccessToken() {
 exports.baasCall = function baasCall (resource_uri, options, callback) {
   // Set access token in the request
   options.accessToken = access_token;
-  console.log(options);
 
 // Make the call with the given inputs
   restler.request(baas_host +'/'+ baas_app + resource_uri, options).on('complete', function (data, response) {
-    console.log("response****", response.statusCode);
-    console.log("data::", data);
+    logger('info',"response statusCode****" + response.statusCode);
+    logger('debug',"data::"+ JSON.stringify(data));
     // Check for error
     if (data instanceof Error) {
-      console.error(Error);
+      logger('error',JSON.stringify(data));
       callback(data, response);
     } else {
       // In some cases of error, 'data' is not an instance of Error - hence this check
       if (response.statusCode === 200) {
         // If all is well, format & forward the response
         formatBaaSOutput(data, function (formatedData) {
-          console.log("Formatted data:::", formatedData);
+          logger('debug',"Formatted data:::", JSON.stringify(formatedData));
           callback(null, response, JSON.stringify(formatedData));
         });
       } else if (response.statusCode === 401) {
@@ -100,5 +104,4 @@ function baasFormatter(baasFormat) {
   delete baasFormat['created'];
   delete baasFormat['modified'];
   delete baasFormat['metadata'];
-  // console.log(baasFormat);
 }

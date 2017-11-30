@@ -7,3 +7,6 @@ setlocalenvvar.bat
 @echo Installing required npm modules...
 cd nodejs-server-server
 npm install --save restler
+npm install --save moment
+npm install --save winston
+cd ..
