@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="1" name="apigeedemo_oauth">
+    <Basepaths>/v1/apigeedemo_oauth</Basepaths>
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedAt>1511577936639</CreatedAt>
+    <CreatedBy>ritwik.t.chatterjee@gmail.com</CreatedBy>
+    <Description>An API proxy that enforces OAuth 2.0 flow</Description>
+    <DisplayName>apigeedemo_oauth</DisplayName>
+    <LastModifiedAt>1511577936639</LastModifiedAt>
+    <LastModifiedBy>ritwik.t.chatterjee@gmail.com</LastModifiedBy>
+    <Policies>
+        <Policy>GenerateAccessTokenClient</Policy>
+        <Policy>RefreshAccessToken</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources/>
+    <Spec></Spec>
+    <TargetServers/>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>

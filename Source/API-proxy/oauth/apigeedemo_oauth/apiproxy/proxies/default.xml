@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="default">
+    <Description></Description>
+    <FaultRules/>
+    <Flows>
+        <Flow name="RefreshAccessToken">
+            <Description></Description>
+            <Request>
+                <Step>
+                    <FaultRules/>
+                    <Name>RefreshAccessToken</Name>
+                </Step>
+            </Request>
+            <Response/>
+            <Condition>(proxy.pathsuffix MatchesPath &quot;/refresh_accesstoken&quot;) and (request.verb = &quot;POST&quot;)</Condition>
+        </Flow>
+        <Flow name="GetAccessToken">
+            <Description>This end point it to get the access token</Description>
+            <Request>
+                <Step>
+                    <FaultRules/>
+                    <Name>GenerateAccessToken</Name>
+                </Step>
+            </Request>
+            <Response/>
+            <Condition>(proxy.pathsuffix MatchesPath &quot;/accesstoken&quot;) and (request.verb = &quot;POST&quot;)</Condition>
+        </Flow>
+    </Flows>
+    <HTTPProxyConnection>
+        <BasePath>/v1/apigeedemo_oauth</BasePath>
+        <Properties/>
+        <VirtualHost>secure</VirtualHost>
+    </HTTPProxyConnection>
+    <RouteRule name="NoRoute"/>
+</ProxyEndpoint>
