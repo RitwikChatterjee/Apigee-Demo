@@ -13,17 +13,8 @@ exports.customersPIdAccountsGET = function (args, callback) {
   }
 
   // Make the call
-  // baasaccess.baasCall(resource_uri, options, callback);
-
-  // Make the call
-  baasaccess.baasCall(resource_uri, options, function (err, resp, data) {
-    if (err) {
-      // Check for error and perform necessary error message conversion
-      logger('error', err);
-      callback(err, resp, data);
-    } else {
-      callback(err, resp, data);
-    }
+  baasaccess.baasCall(resource_uri, options, function (err, data) {
+    callback(err, data);
   });
 };
 
@@ -38,37 +29,25 @@ exports.customersPIdAccountsIdGET = function (args, callback) {
   }
 
   // Make the call
-  baasaccess.baasCall(resource_uri, options, function (err, resp, data) {
-    if (err) {
-      // Check for error and perform necessary error message conversion
-      logger('error', err);
-      callback(err, resp, data);
-    } else {
-      callback(err, resp, data);
-    }
+  baasaccess.baasCall(resource_uri, options, function (err, data) {
+    callback(err, data);
   });
 };
 
-exports.customersPOST = function (args, callback) {
+exports.customersPIdAccountsPOST = function (args, callback) {
   // Extract request arguments
    logger('debug', "/adapter/Customeraccounts args received:"+ JSON.stringify(args));
 
   // Prepare the query
-  var resource_uri = '/customers';
+  var resource_uri = '/customers/'+ args.PId.value + '/owns/accounts/';
   var options = {
     method: 'POST',
-    data: JSON.stringify(args.Customer.value)
+    data: JSON.stringify(args.Account.value)
   }
 
   // Make the call
-  baasaccess.baasCall(resource_uri, options, function (err, resp, data) {
-    if (err) {
-      // Check for error and perform necessary error message conversion
-      logger('error',err);
-      callback(err, resp, data);
-    } else {
-      callback(err, resp, data);
-    }
+  baasaccess.baasCall(resource_uri, options, function (err, data) {
+    callback(err, data);
   });
 };
 
@@ -84,13 +63,7 @@ exports.customersPIdAccountsIdPUT = function (args, callback) {
   }
 
   // Make the call
-  baasaccess.baasCall(resource_uri, options, function (err, resp, data) {
-    if (err) {
-      // Check for error and perform necessary error message conversion
-      logger('error', err);
-      callback(err, resp, data);
-    } else {
-      callback(err, resp, data);
-    }
+  baasaccess.baasCall(resource_uri, options, function (err, data) {
+    callback(err, data);
   });
 };

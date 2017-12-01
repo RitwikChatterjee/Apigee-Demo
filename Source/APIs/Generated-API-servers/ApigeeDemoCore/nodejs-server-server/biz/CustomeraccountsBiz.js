@@ -7,22 +7,30 @@ const logger = require('../util/AppLogger.js');
 exports.customersPIdAccountsGET = function (args, callback) {
 
   // Business flow/orchestration
-  customers.customersPIdAccountsGET(args, function (err, response, data) {
-    callback(err, response, data);
+  customers.customersPIdAccountsGET(args, function (err, data) {
+    callback(err, data);
   });
 };
 
 exports.customersPIdAccountsIdGET = function (args, callback) {
   // Business flow/orchestration
-  customers.customersPIdAccountsIdGET(args, function (err, response, data) {
-    callback(err, response, data);
+  customers.customersPIdAccountsIdGET(args, function (err, data) {
+    callback(err, data);
   });
 };
 
-exports.customersPOST = function (args, callback) {
+exports.customersPIdAccountsPOST = function (args, callback) {
   // Business flow/orchestration
-  customers.customersPOST(args, function (err, response, data) {
-    callback(err, response, data);
+  // Check if parent customer id is same as the customer id  coming in the account
+  if (args.PId.value !== args.Account.value.customer_id) {
+    logger('info', "Business rule failed for customersPIdAccountsPOST");
+    var err = new Error("Linking customer id does not match");
+    err.statusCode = 403;
+    console.log(err);
+    callback(err, null);
+  }
+  customers.customersPIdAccountsPOST(args, function (err, data) {
+    callback(err, data);
   });
 };
 
@@ -32,7 +40,7 @@ exports.customersPIdAccountsIdPUT = function (args, callback) {
   // Update time_stamp
   args.Account.value.bal_updt_ts = moment().format();
 
-  customers.customersPIdAccountsIdPUT(args, function (err, response, data) {
-    callback(err, response, data);
+  customers.customersPIdAccountsIdPUT(args, function (err, data) {
+    callback(err, data);
   });
 };

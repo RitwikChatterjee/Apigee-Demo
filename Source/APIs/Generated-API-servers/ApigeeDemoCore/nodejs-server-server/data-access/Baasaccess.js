@@ -26,13 +26,13 @@ function getAccessToken(cb) {
 
   logger('debug',"access_options::" + JSON.stringify(access_options));
 
-  restler.post(baas_host+'/'+baas_app+'/token', access_options).on('complete', function (data, response) {
-    if (data instanceof Error) {
-      logger('error', JSON.stringify(data));
+  restler.post(baas_host+'/'+baas_app+'/token', access_options).on('complete', function (result, response) {
+    if (result instanceof Error) {
+      logger('error', JSON.stringify(result));
       this.retry(1000); //If fails, try after 1 second
     } else {
-      logger('info',"New access token" + JSON.stringify(data.access_token));
-      cb(data.access_token);
+      logger('info',"New access token" + JSON.stringify(result.access_token));
+      cb(result.access_token);
     }
   });
 };
@@ -60,30 +60,32 @@ exports.baasCall = function baasCall (resource_uri, options, callback) {
   options.accessToken = access_token;
 
 // Make the call with the given inputs
-  restler.request(baas_host +'/'+ baas_app + resource_uri, options).on('complete', function (data, response) {
+  restler.request(baas_host +'/'+ baas_app + resource_uri, options).on('complete', function (result, response) {
     logger('info',"response statusCode****" + response.statusCode);
-    logger('debug',"data::"+ JSON.stringify(data));
+    logger('debug',"result::"+ JSON.stringify(result));
     // Check for error
-    if (data instanceof Error) {
-      logger('error',JSON.stringify(data));
-      callback(data, response);
+    if (result instanceof Error) {
+      logger('error',JSON.stringify(result));
+      callback(result, response);
     } else {
-      // In some cases of error, 'data' is not an instance of Error - hence this check
-      if (response.statusCode === 200) {
-        // If all is well, format & forward the response
-        formatBaaSOutput(data, function (formatedData) {
-          logger('debug',"Formatted data:::", JSON.stringify(formatedData));
-          callback(null, response, JSON.stringify(formatedData));
-        });
-      } else if (response.statusCode === 401) {
-          //Check if failure due to HTTP-401 Unauthorized
+      // In some cases of error, 'result' is not an instance of Error - hence this check
+      if (response.statusCode !== 200) {
+        // If error status
+        if (response.statusCode === 401) {
+          //Special case of failure with 401
           refreshAccessToken();
           // TODO - Need to change the status code as this has to be managed internally
-          callback(new Error("Unauthorized"), response, data);
-      } else{
-        // For other errors, simply send the error
-        callback(new Error("Error"), response, data);
-      }
+        }
+          var err = new Error(result);
+          err.statusCode = response.statusCode;
+          callback(err, result);
+      } else {
+        // If all is well, format & forward the response
+          formatBaaSOutput(result, function (formatedData) {
+          logger('debug',"Formatted data:::", JSON.stringify(formatedData));
+          callback(null, JSON.stringify(formatedData));
+        });
+      } 
     }
   });
 };

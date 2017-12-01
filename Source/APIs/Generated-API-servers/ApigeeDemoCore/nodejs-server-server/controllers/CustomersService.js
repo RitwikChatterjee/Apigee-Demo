@@ -4,35 +4,13 @@
 const customersBiz = require('../biz/CustomersBiz');
 
 // Send response to calling application
-function sendResponse(error, res, data) {
-/*
-//   var examples = {};
-//   examples['application/json'] = [ {
-//   "l_name" : "aeiou",
-//   "f_name" : "aeiou",
-//   "customer_id" : "d290f1ee-6c54-4b01-90e6-d701748f0851",
-//   "contacts" : [ {
-//     "contact_type" : "email",
-//     "preference" : "Y",
-//     "contact_info" : "abc@mail.com"
-//   } ]
-// } ];
-*/
+function sendResponse(error, res, data, next) {
   if (error) {
-    console.error("Error caught:", error);
-    res.end("Sorry, error received. Try back after sometime");
+    next(error, null, res);
   } else {
-    /*
-    // console.log("data in sendResponse", data);
-    // // examples['application/json'] = data;
-    // console.log("examples in sendResponse", examples);
-    // console.log("Final response", JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-    */
-    // if (Object.keys(examples).length > 0) {
     if (Object.keys(data).length > 0) {
       res.setHeader('Content-Type', 'application/json');
       res.end(data);
-      // res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
     } else {
       res.end();
     }
@@ -49,9 +27,9 @@ exports.customersGET = function(args, res, next) {
    * offset Integer  (optional)
    * returns List
    **/
-   customersBiz.customersGET(args, function(err, response, data){
-     res.statusCode = response.statusCode;
-     sendResponse(err, res, data);
+   customersBiz.customersGET(args, function(err, data){
+  
+     sendResponse(err, res, data, next);
    });
 }
 
@@ -63,9 +41,9 @@ exports.customersIdGET = function(args, res, next) {
    * id String Unique Id of the record
    * returns Customer
    **/
-   customersBiz.customersIdGET(args, function(err, response, data){
-     res.statusCode = response.statusCode;
-     sendResponse(err, res, data);
+   customersBiz.customersIdGET(args, function(err, data){
+  
+     sendResponse(err, res, data, next);
    });
 }
 
@@ -78,9 +56,9 @@ exports.customersIdPUT = function(args, res, next) {
    * customer Customer Updated customer value (optional)
    * returns Customer
    **/
-   customersBiz.customersIdPUT(args, function(err, response, data){
-     res.statusCode = response.statusCode;
-     sendResponse(err, res, data);
+   customersBiz.customersIdPUT(args, function(err, data){
+  
+     sendResponse(err, res, data, next);
    });
 }
 
@@ -92,8 +70,8 @@ exports.customersPOST = function(args, res, next) {
    * customer Customer Customer to add (optional)
    * returns Customer
    **/
-   customersBiz.customersPOST(args, function(err, response, data){
-     res.statusCode = response.statusCode;
-     sendResponse(err, res, data);
+   customersBiz.customersPOST(args, function(err, data){
+  
+     sendResponse(err, res, data, next);
    });
 }

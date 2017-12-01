@@ -7,7 +7,11 @@ var fs = require('fs'),
 var app = require('connect')();
 var swaggerTools = require('swagger-tools');
 var jsyaml = require('js-yaml');
-var serverPort = 8080;
+// START - Manual changes 1 of 2
+// var serverPort = 8080;
+var serverPort = process.env['PORT'] || 8080;
+const errorhandler = require('./util/ErrorHandler.js');
+// END - Manual changes 1 of 2
 
 // swaggerRouter configuration
 var options = {
@@ -34,6 +38,13 @@ swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
 
   // Serve the Swagger documents and Swagger UI
   app.use(middleware.swaggerUi());
+
+  // START - Manual changes 2 of 2
+  // Error handling
+  app.use(function (err, req, res, next) {
+    errorhandler(err, req, res, next);
+  });
+  // END - Manual changes 2 of 2
 
   // Start the server
   http.createServer(app).listen(serverPort, function () {
