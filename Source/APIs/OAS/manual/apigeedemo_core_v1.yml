@@ -71,6 +71,8 @@ paths:
             $ref: '#/definitions/Customer'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         500:
           $ref : '#/responses/500-internal-error'
 
@@ -120,6 +122,8 @@ paths:
             $ref: '#/definitions/Customer'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -169,6 +173,8 @@ paths:
             $ref: '#/definitions/Account'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -216,6 +222,8 @@ paths:
             $ref: '#/definitions/Account'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -267,6 +275,8 @@ paths:
             $ref: '#/definitions/Account'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -316,6 +326,8 @@ paths:
             $ref: '#/definitions/Account'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -342,6 +354,8 @@ paths:
               $ref: '#/definitions/Transaction'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -365,6 +379,8 @@ paths:
             $ref: '#/definitions/Transaction'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -388,6 +404,8 @@ paths:
             $ref: '#/definitions/Transaction'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -412,6 +430,8 @@ paths:
             $ref: '#/definitions/Transaction'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -439,6 +459,8 @@ paths:
               $ref: '#/definitions/Transaction'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -463,6 +485,8 @@ paths:
             $ref: '#/definitions/Transaction'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -487,6 +511,8 @@ paths:
             $ref: '#/definitions/Transaction'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -512,6 +538,8 @@ paths:
             $ref: '#/definitions/Transaction'
         400:
           $ref : '#/responses/400-bad-request'
+        403:
+          $ref : '#/responses/403-forbidden'
         404:
           $ref : '#/responses/404-not-found'
         500:
@@ -691,6 +719,10 @@ parameters:
 responses:
   400-bad-request:
     description: Bad request error
+    schema:
+      $ref: '#/definitions/Error-msg'
+  403-forbidden:
+    description: Error when the user is unauthorized to perform the action
     schema:
       $ref: '#/definitions/Error-msg'
   404-not-found:
