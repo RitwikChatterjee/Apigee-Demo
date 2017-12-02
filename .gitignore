@@ -68,3 +68,6 @@ setlocalenvvar.bat
 
 # Visual Studio Code file
 launch.json
+
+#Postman env files
+postman_env/

@@ -56,7 +56,7 @@ exports.customersIdPUT = function (args, callback) {
   logger('info',"/adapter/Customers args received:"+ JSON.stringify(args));
 
   // Prepare the query
-  var resource_uri = '/customers'+args.Id.value;
+  var resource_uri = '/customers/'+args.Id.value;
   var options = {
     method: 'PUT',
     data: JSON.stringify(args.Customer.value)
