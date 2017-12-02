@@ -735,7 +735,7 @@ responses:
       $ref: '#/definitions/Error-msg'
 
 
-host: apigeedemo-ritwik.appspot.com
+host: localhost:8080
 basePath: /apigeedemo_core/v1
 schemes:
  - https
