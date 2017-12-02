@@ -19,6 +19,10 @@ tags:
   description: Accounts related APIs
 - name: customer-accounts
   description: Customer-account related APIs
+- name: transactions
+  description: Transactions related APIs
+- name: account-transactions
+  description: Account-transactions related APIs
 
 paths:
   /customers:
@@ -160,7 +164,7 @@ paths:
       - $ref: '#/parameters/Account'
       responses:
         201:
-          description: customer created
+          description: Account created
           schema:
             $ref: '#/definitions/Account'
         400:
@@ -258,7 +262,7 @@ paths:
       - $ref: '#/parameters/Account'
       responses:
         201:
-          description: customer created
+          description: Account created
           schema:
             $ref: '#/definitions/Account'
         400:
@@ -317,6 +321,202 @@ paths:
         500:
           $ref : '#/responses/500-internal-error'
 
+  /transactions:
+    get:
+      tags:
+      - transactions
+      summary: List of Transactions
+      # operationId: listTransaction
+      description: List of all transactions
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/page-size'
+      - $ref: '#/parameters/off-set'
+      responses:
+        200:
+          description: List of all transactions
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+    post:
+      tags:
+      - transactions
+      summary: Create a transaction
+      # operationId: createTransaction
+      description: Creates a new transaction. TODO - should I have this? Problem for Usergrid
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/Transaction'
+      responses:
+        201:
+          description: Transaction created
+          schema:
+            $ref: '#/definitions/Transaction'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+
+  /transactions/{Id}:
+    get:
+      tags:
+      - transactions
+      summary: Get a particular Transaction
+      # operationId: getTransaction
+      description: Gets a particular transaction
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/Id'
+      responses:
+        200:
+          description: Transaction requested
+          schema:
+            $ref: '#/definitions/Transaction'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+    put:
+      tags:
+      - transactions
+      summary: Update an transaction
+      # operationId: updateTransaction
+      description: Updates an existing transaction
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/Id'
+      - $ref: '#/parameters/Transaction'
+      responses:
+        200:
+          description: transaction updated
+          schema:
+            $ref: '#/definitions/Transaction'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+
+  /accounts/{PId}/transactions:
+    get:
+      tags:
+      - account-transactions
+      summary: List of Transactions for particular accounts
+      # operationId: listCustomerTransactions
+      description: List of all transactions for particular accounts
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/PId'
+      - $ref: '#/parameters/page-size'
+      - $ref: '#/parameters/off-set'
+      responses:
+        200:
+          description: List of all transactions for the given account
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+    post:
+      tags:
+      - account-transactions
+      summary: Create an transaction for a account
+      # operationId: createCustomerTransaction
+      description: Creates a new transaction for a given account
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/PId'
+      - $ref: '#/parameters/Transaction'
+      responses:
+        201:
+          description: Transaction created
+          schema:
+            $ref: '#/definitions/Transaction'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+
+  /accounts/{PId}/transactions/{Id}:
+    get:
+      tags:
+      - account-transactions
+      summary: Get Transaction for Account
+      # operationId: getAccountTransaction
+      description: Gets a particular transaction for a account
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/PId'
+      - $ref: '#/parameters/Id'
+      responses:
+        200:
+          description: Transaction requested
+          schema:
+            $ref: '#/definitions/Transaction'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+    put:
+      tags:
+      - account-transactions
+      summary: Update an transaction for a account
+      # operationId: updateAccountTransaction
+      description: Updates an existing transaction for a account
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - $ref: '#/parameters/PId'
+      - $ref: '#/parameters/Id'
+      - $ref: '#/parameters/Transaction'
+      responses:
+        200:
+          description: transaction updated
+          schema:
+            $ref: '#/definitions/Transaction'
+        400:
+          $ref : '#/responses/400-bad-request'
+        404:
+          $ref : '#/responses/404-not-found'
+        500:
+          $ref : '#/responses/500-internal-error'
+
 
 definitions:
   Error-msg:
@@ -328,8 +528,14 @@ definitions:
     properties:
       code:
         type: string
+        example: 404
       message:
         type: string
+        example: 'Not found'
+      help:
+        type: string
+        description: More description, help on the error
+        example: 'Please check the id of the requested resource'
   Customer:
     type: object
     required:
@@ -356,6 +562,10 @@ definitions:
     properties:
       contact_type:
         type: string
+        enum:
+        - email
+        - phone
+        - address
         description: Possible types can be email, phone, address
         example: email
       contact_info:
@@ -368,7 +578,6 @@ definitions:
   Account:
     required:
     - acc_bal
-    - bal_updt_ts
     - customer_id
     properties:
       acc_id:
@@ -385,8 +594,56 @@ definitions:
         description: When the account balance was last updated
       customer_id:
         type: string
-        description: Account owner id
+        description: Customer who owns the account
         example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  Transaction:
+    required:
+    - acc_id
+    - txn_type
+    - txn_details
+    - txn_amount
+    properties:
+      txn_id:
+        type: string
+        description: UUID of the transaction
+        example: t54132ee-6c54-4b01-90e6-d701748f0851
+      acc_id:
+        type: string
+        description: The associated account for the transaction
+        example: a222g1ee-6c54-4b01-90e6-d701748f0851
+      txn_ts:
+        type: string
+        # format: date-time
+        description: The time-stamp for the transaction
+      txn_type:
+        type: string
+        enum:
+        - Dr
+        - Cr
+        description: Type of transaction
+        example: Dr
+      txn_details:
+        type: string
+        description: Details of the transaction
+        example: Transfer to Joe
+      txn_amount:
+        type: number
+        format: float
+        description: Account Balance
+        example: 5.00
+      txn_status:
+        type: string
+        enum:
+        - Pending
+        - Confirmed
+        - Cancelled
+        description: Current status of the transaction
+        example: Confirmed
+      txn_status_ts:
+        type: string
+        # format: date-time
+        description: The time-stamp for the transaction status
+
 
 
 parameters:
@@ -423,6 +680,12 @@ parameters:
     description: Updated account
     schema:
       $ref: '#/definitions/Account'
+  Transaction:
+    in: body
+    name: Transaction
+    description: Updated account
+    schema:
+      $ref: '#/definitions/Transaction'
 
 
 responses:
@@ -440,9 +703,7 @@ responses:
       $ref: '#/definitions/Error-msg'
 
 
-
-# Added by API Auto Mocking Plugin
-host: localhost:8080
+host: apigeedemo-ritwik.appspot.com
 basePath: /apigeedemo_core/v1
 schemes:
  - https
