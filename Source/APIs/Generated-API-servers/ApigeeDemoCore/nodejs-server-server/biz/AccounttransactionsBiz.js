@@ -48,29 +48,41 @@ exports.accountsPIdTransactionsIdPUT = function (args, callback) {
     });
 }
 
-/*
+
     // TODO - Debug the business rules
     exports.accountsPIdTransactionsPOST = function (args, callback) {
         /*   // Business flow/orchestration
+        1. Validate parent account id
         2. Fetch account balance
         3. Check & update account balance = account balance + txn_amount
         4. Update account with balance
         5. Set other transaction values: txn_ts, txn_status=pending, txn_status_ts
         6. Create transaction
         7. Create SFAuth 
-        
+        */        
 
+        // 1. Check if parent account id is same as the account id  coming in the account
+        if (args.PId.value !== args.Transaction.value.acc_id) {
+            logger('info', "Business rule failed for accountsPIdTransactionsPOST");
+            var err = new Error("Linking account id does not match");
+            err.statusCode = 403;
+            callback(err, null);
+        }
+        
         var transaction = args.Transaction.value;
         var acc_args = {
             Id: {
                 value:args.PId.value
+            },
+            Account:{
             }
         };
 
         //   2. Fetch account balance
-        fetchAccount(acc_args).then(function (acc) {
-            logger('debug', 'Account fetched: ' + acc);
-            logger('debug', 'Account fetched: ' + JSON.parse(acc));
+        fetchAccount(acc_args).then(function (acc_string) {
+            logger('debug', 'Account args: ' + JSON.stringify(acc_args));
+            logger('debug', 'Account fetched: ' + acc_string);
+            var acc = JSON.parse(acc_string)[0];
             // Step 3.
             acc.acc_bal = acc.acc_bal + transaction.txn_amount;
             if (acc.acc_bal < 0) {
@@ -83,9 +95,8 @@ exports.accountsPIdTransactionsIdPUT = function (args, callback) {
             acc_args.Account.value = acc;
             // 4. Update account with balance
             return updateAccount(acc_args);
-        }).then(function (updt_acc) {
-            logger('debug', 'Account updated = ' + updt_acc.acc_bal);
-            acc_args.Account.value = updt_acc;
+        }).then(function (updt_acc_str) {
+            logger('debug', 'Account updated = ' + updt_acc_str);
             // 5. Set other transaction values: txn_ts, txn_status=pending, txn_status_ts
             transaction.txn_ts = moment().format();
             transaction.txn_status = "Pending";
@@ -94,7 +105,7 @@ exports.accountsPIdTransactionsIdPUT = function (args, callback) {
             args.Transaction.value = transaction;
             return createTxn(args);
         }).then(function (txn) {
-            logger('debug', 'Transaction created = ' + txn.uuid);
+            logger('debug', 'Transaction created = ' + txn);
             // 7. Create SFAuth 
             // TODO - send for Second Factor;
             callback(null, txn);
@@ -105,33 +116,33 @@ exports.accountsPIdTransactionsIdPUT = function (args, callback) {
 
     }
 
+
+/* 
+    exports.accountsPIdTransactionsPOST = function (args, callback) {
+    // Business flow/orchestration
+        // TODO add other logic
+
+        // Check if parent account id is same as the account id  coming in the account
+        if (args.PId.value !== args.Transaction.value.acc_id) {
+            logger('info', "Business rule failed for accountsPIdTransactionsPOST");
+            var err = new Error("Linking account id does not match");
+            err.statusCode = 403;
+            callback(err, null);
+        }
+    
+    
+    
+        // 5. Set other transaction values: txn_ts, txn_status=pending, txn_status_ts
+        args.Transaction.value.txn_ts = moment().format();
+        args.Transaction.value.txn_status = "Pending";
+        args.Transaction.value.txn_status_ts = moment().format();
+
+        accounttransactions.accountsPIdTransactionsPOST(args, function (err, data) {
+            callback(err, data);
+        });
+    }
 */
 
-exports.accountsPIdTransactionsPOST = function (args, callback) {
-  // Business flow/orchestration
-    // TODO add other logic
-
-    // Check if parent customer id is same as the customer id  coming in the account
-    if (args.PId.value !== args.Transaction.value.acc_id) {
-        logger('info', "Business rule failed for accountsPIdTransactionsPOST");
-        var err = new Error("Linking account id does not match");
-        err.statusCode = 403;
-        callback(err, null);
-    }
- 
- 
- 
-    // 5. Set other transaction values: txn_ts, txn_status=pending, txn_status_ts
-    args.Transaction.value.txn_ts = moment().format();
-    args.Transaction.value.txn_status = "Pending";
-    args.Transaction.value.txn_status_ts = moment().format();
-
-    accounttransactions.accountsPIdTransactionsPOST(args, function (err, data) {
-        callback(err, data);
-      });
-}
-
-/*
     // Promise functions
     let fetchAccount = function (acc_args) {
         return new Promise(function (resolve, reject) {
@@ -168,4 +179,3 @@ exports.accountsPIdTransactionsPOST = function (args, callback) {
             });
         })
     }
-*/

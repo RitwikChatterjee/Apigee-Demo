@@ -59,7 +59,7 @@ exports.baasCall = function baasCall (resource_uri, options, callback) {
   // Set access token in the request
   options.accessToken = access_token;
 
-// Make the call with the given inputs
+  // Make the call with the given inputs
   restler.request(baas_host +'/'+ baas_app + resource_uri, options).on('complete', function (result, response) {
     logger('info',"response statusCode****" + response.statusCode);
     logger('debug',"result::"+ JSON.stringify(result));
