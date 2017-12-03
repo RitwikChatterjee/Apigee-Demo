@@ -18,10 +18,6 @@ tags:
   description: "Accounts related APIs"
 - name: "customer-accounts"
   description: "Customer-account related APIs"
-- name: "transactions"
-  description: "Transactions related APIs"
-- name: "account-transactions"
-  description: "Account-transactions related APIs"
 schemes:
 - "https"
 paths:
@@ -92,10 +88,6 @@ paths:
           description: "Bad request error"
           schema:
             $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
-          schema:
-            $ref: "#/definitions/Error-msg"
         500:
           description: "Internal server error"
           schema:
@@ -163,10 +155,6 @@ paths:
             $ref: "#/definitions/Customer"
         400:
           description: "Bad request error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
           schema:
             $ref: "#/definitions/Error-msg"
         404:
@@ -243,15 +231,11 @@ paths:
           $ref: "#/definitions/Account"
       responses:
         201:
-          description: "Account created"
+          description: "customer created"
           schema:
             $ref: "#/definitions/Account"
         400:
           description: "Bad request error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
           schema:
             $ref: "#/definitions/Error-msg"
         404:
@@ -325,10 +309,6 @@ paths:
             $ref: "#/definitions/Account"
         400:
           description: "Bad request error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
           schema:
             $ref: "#/definitions/Error-msg"
         404:
@@ -414,15 +394,11 @@ paths:
           $ref: "#/definitions/Account"
       responses:
         201:
-          description: "Account created"
+          description: "customer created"
           schema:
             $ref: "#/definitions/Account"
         400:
           description: "Bad request error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
           schema:
             $ref: "#/definitions/Error-msg"
         404:
@@ -508,10 +484,6 @@ paths:
           description: "Bad request error"
           schema:
             $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
-          schema:
-            $ref: "#/definitions/Error-msg"
         404:
           description: "Error when requested resource not found"
           schema:
@@ -521,365 +493,6 @@ paths:
           schema:
             $ref: "#/definitions/Error-msg"
       x-swagger-router-controller: "Customeraccounts"
-  /transactions:
-    get:
-      tags:
-      - "transactions"
-      summary: "List of Transactions"
-      description: "List of all transactions"
-      operationId: "transactionsGET"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "limit"
-        in: "query"
-        required: false
-        type: "integer"
-        default: 10
-        maximum: 25
-        minimum: 1
-        format: "int32"
-      - name: "offset"
-        in: "query"
-        required: false
-        type: "integer"
-        default: 0
-        minimum: 0
-        format: "int32"
-      responses:
-        200:
-          description: "List of all transactions"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Transaction"
-        400:
-          description: "Bad request error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        404:
-          description: "Error when requested resource not found"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        500:
-          description: "Internal server error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-      x-swagger-router-controller: "Transactions"
-    post:
-      tags:
-      - "transactions"
-      summary: "Create a transaction"
-      description: "Creates a new transaction. TODO - should I have this? Problem\
-        \ for Usergrid"
-      operationId: "transactionsPOST"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "Transaction"
-        description: "Updated account"
-        required: false
-        schema:
-          $ref: "#/definitions/Transaction"
-      responses:
-        201:
-          description: "Transaction created"
-          schema:
-            $ref: "#/definitions/Transaction"
-        400:
-          description: "Bad request error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        404:
-          description: "Error when requested resource not found"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        500:
-          description: "Internal server error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-      x-swagger-router-controller: "Transactions"
-  /transactions/{Id}:
-    get:
-      tags:
-      - "transactions"
-      summary: "Get a particular Transaction"
-      description: "Gets a particular transaction"
-      operationId: "transactionsIdGET"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "Id"
-        in: "path"
-        description: "Unique Id of the record"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Transaction requested"
-          schema:
-            $ref: "#/definitions/Transaction"
-        400:
-          description: "Bad request error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        404:
-          description: "Error when requested resource not found"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        500:
-          description: "Internal server error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-      x-swagger-router-controller: "Transactions"
-    put:
-      tags:
-      - "transactions"
-      summary: "Update an transaction"
-      description: "Updates an existing transaction"
-      operationId: "transactionsIdPUT"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "Id"
-        in: "path"
-        description: "Unique Id of the record"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "Transaction"
-        description: "Updated account"
-        required: false
-        schema:
-          $ref: "#/definitions/Transaction"
-      responses:
-        200:
-          description: "transaction updated"
-          schema:
-            $ref: "#/definitions/Transaction"
-        400:
-          description: "Bad request error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        404:
-          description: "Error when requested resource not found"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        500:
-          description: "Internal server error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-      x-swagger-router-controller: "Transactions"
-  /accounts/{PId}/transactions:
-    get:
-      tags:
-      - "account-transactions"
-      summary: "List of Transactions for particular accounts"
-      description: "List of all transactions for particular accounts"
-      operationId: "accountsPIdTransactionsGET"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "PId"
-        in: "path"
-        description: "Unique Id of the parent record"
-        required: true
-        type: "string"
-      - name: "limit"
-        in: "query"
-        required: false
-        type: "integer"
-        default: 10
-        maximum: 25
-        minimum: 1
-        format: "int32"
-      - name: "offset"
-        in: "query"
-        required: false
-        type: "integer"
-        default: 0
-        minimum: 0
-        format: "int32"
-      responses:
-        200:
-          description: "List of all transactions for the given account"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Transaction"
-        400:
-          description: "Bad request error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        404:
-          description: "Error when requested resource not found"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        500:
-          description: "Internal server error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-      x-swagger-router-controller: "Accounttransactions"
-    post:
-      tags:
-      - "account-transactions"
-      summary: "Create an transaction for a account"
-      description: "Creates a new transaction for a given account"
-      operationId: "accountsPIdTransactionsPOST"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "PId"
-        in: "path"
-        description: "Unique Id of the parent record"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "Transaction"
-        description: "Updated account"
-        required: false
-        schema:
-          $ref: "#/definitions/Transaction"
-      responses:
-        201:
-          description: "Transaction created"
-          schema:
-            $ref: "#/definitions/Transaction"
-        400:
-          description: "Bad request error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        404:
-          description: "Error when requested resource not found"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        500:
-          description: "Internal server error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-      x-swagger-router-controller: "Accounttransactions"
-  /accounts/{PId}/transactions/{Id}:
-    get:
-      tags:
-      - "account-transactions"
-      summary: "Get Transaction for Account"
-      description: "Gets a particular transaction for a account"
-      operationId: "accountsPIdTransactionsIdGET"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "PId"
-        in: "path"
-        description: "Unique Id of the parent record"
-        required: true
-        type: "string"
-      - name: "Id"
-        in: "path"
-        description: "Unique Id of the record"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "Transaction requested"
-          schema:
-            $ref: "#/definitions/Transaction"
-        400:
-          description: "Bad request error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        404:
-          description: "Error when requested resource not found"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        500:
-          description: "Internal server error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-      x-swagger-router-controller: "Accounttransactions"
-    put:
-      tags:
-      - "account-transactions"
-      summary: "Update an transaction for a account"
-      description: "Updates an existing transaction for a account"
-      operationId: "accountsPIdTransactionsIdPUT"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "PId"
-        in: "path"
-        description: "Unique Id of the parent record"
-        required: true
-        type: "string"
-      - name: "Id"
-        in: "path"
-        description: "Unique Id of the record"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "Transaction"
-        description: "Updated account"
-        required: false
-        schema:
-          $ref: "#/definitions/Transaction"
-      responses:
-        200:
-          description: "transaction updated"
-          schema:
-            $ref: "#/definitions/Transaction"
-        400:
-          description: "Bad request error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        403:
-          description: "Error when the user is unauthorized to perform the action"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        404:
-          description: "Error when requested resource not found"
-          schema:
-            $ref: "#/definitions/Error-msg"
-        500:
-          description: "Internal server error"
-          schema:
-            $ref: "#/definitions/Error-msg"
-      x-swagger-router-controller: "Accounttransactions"
 definitions:
   Error-msg:
     type: "object"
@@ -889,14 +502,8 @@ definitions:
     properties:
       code:
         type: "string"
-        example: "404"
       message:
         type: "string"
-        example: "Not found"
-      help:
-        type: "string"
-        example: "Please check the id of the requested resource"
-        description: "More description, help on the error"
     description: "Error message"
   Customer:
     type: "object"
@@ -926,10 +533,6 @@ definitions:
         type: "string"
         example: "email"
         description: "Possible types can be email, phone, address"
-        enum:
-        - "email"
-        - "phone"
-        - "address"
       contact_info:
         type: "string"
         example: "abc@mail.com"
@@ -940,6 +543,7 @@ definitions:
   Account:
     required:
     - "acc_bal"
+    - "bal_updt_ts"
     - "customer_id"
     properties:
       acc_id:
@@ -956,52 +560,7 @@ definitions:
       customer_id:
         type: "string"
         example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
-        description: "Customer who owns the account"
-  Transaction:
-    required:
-    - "acc_id"
-    - "txn_amount"
-    - "txn_details"
-    - "txn_type"
-    properties:
-      txn_id:
-        type: "string"
-        example: "t54132ee-6c54-4b01-90e6-d701748f0851"
-        description: "UUID of the transaction"
-      acc_id:
-        type: "string"
-        example: "a222g1ee-6c54-4b01-90e6-d701748f0851"
-        description: "The associated account for the transaction"
-      txn_ts:
-        type: "string"
-        description: "The time-stamp for the transaction"
-      txn_type:
-        type: "string"
-        example: "Dr"
-        description: "Type of transaction"
-        enum:
-        - "Dr"
-        - "Cr"
-      txn_details:
-        type: "string"
-        example: "Transfer to Joe"
-        description: "Details of the transaction"
-      txn_amount:
-        type: "number"
-        format: "float"
-        example: 5.0
-        description: "Account Balance"
-      txn_status:
-        type: "string"
-        example: "Confirmed"
-        description: "Current status of the transaction"
-        enum:
-        - "Pending"
-        - "Confirmed"
-        - "Cancelled"
-      txn_status_ts:
-        type: "string"
-        description: "The time-stamp for the transaction status"
+        description: "Account owner id"
 parameters:
   PId:
     name: "PId"
@@ -1039,20 +598,9 @@ parameters:
     required: false
     schema:
       $ref: "#/definitions/Account"
-  Transaction:
-    in: "body"
-    name: "Transaction"
-    description: "Updated account"
-    required: false
-    schema:
-      $ref: "#/definitions/Transaction"
 responses:
   400-bad-request:
     description: "Bad request error"
-    schema:
-      $ref: "#/definitions/Error-msg"
-  403-forbidden:
-    description: "Error when the user is unauthorized to perform the action"
     schema:
       $ref: "#/definitions/Error-msg"
   404-not-found:
