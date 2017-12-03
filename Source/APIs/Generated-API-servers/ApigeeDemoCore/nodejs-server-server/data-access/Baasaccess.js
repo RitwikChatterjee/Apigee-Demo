@@ -44,8 +44,8 @@ function refreshAccessToken() {
   access_options = {
     data: {
       grant_type: 'client_credentials',
-      client_id: 'YXA6RaHWLNJ1Eee48g7sJBXz3w',
-      client_secret: 'YXA6BqhYsXHCBT7UYLzm1I2L6WOSaQo'
+      client_id: process.env.BAAS_CLIENT_ID,
+      client_secret: process.env.BAAS_CLIENT_SECRET
     }
   }
   // Call getAccessToken again
@@ -85,7 +85,7 @@ exports.baasCall = function baasCall (resource_uri, options, callback) {
           logger('debug',"Formatted data:::", JSON.stringify(formatedData));
           callback(null, JSON.stringify(formatedData));
         });
-      } 
+      }
     }
   });
 };
