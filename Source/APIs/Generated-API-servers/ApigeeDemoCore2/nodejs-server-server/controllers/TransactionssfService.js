@@ -1,0 +1,23 @@
+'use strict';
+
+exports.transactionsIdSfauthPOST = function(args, res, next) {
+  /**
+   * Second Factor Auth for transactions
+   * Resends or confirms second factor auth
+   *
+   * id String Unique Id of the record
+   * action String  (optional)
+   * returns inline_response_200
+   **/
+  var examples = {};
+  examples['application/json'] = {
+  "message" : "Token validation success"
+};
+  if (Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  } else {
+    res.end();
+  }
+}
+

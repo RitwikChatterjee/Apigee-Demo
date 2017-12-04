@@ -1,0 +1,221 @@
+swagger: '2.0'
+info:
+  description: These are the APIs to be exposed by the Apigee Proxy
+  version: 1.0.0
+  title: Apigee Demo Proxy APIs
+  contact:
+    email: ritwik.t.chatterjee@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: user-registration
+    description: User registration related APIs
+paths:
+  /users:
+    get:
+      tags:
+        - user-registration
+      summary: List Users
+      description: List of all users
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/page-size'
+        - $ref: '#/parameters/off-set'
+      responses:
+        '200':
+          description: List of all users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '500':
+          $ref: '#/responses/500-internal-error'
+    post:
+      tags:
+        - user-registration
+      summary: Create a user
+      description: Creates a new user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/User'
+        - $ref: '#/parameters/SF-flag'
+      responses:
+        '201':
+          description: user created
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '500':
+          $ref: '#/responses/500-internal-error'
+  '/users/{Id}':
+    get:
+      tags:
+        - user-registration
+      summary: Get User
+      description: Gets a particular user
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/Id'
+      responses:
+        '200':
+          description: User requested
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+    put:
+      tags:
+        - user-registration
+      summary: Update a user
+      description: Updates an existing user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/Id'
+        - $ref: '#/parameters/SF-flag'
+        - $ref: '#/parameters/User'
+      responses:
+        '200':
+          description: Same user after updation
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+definitions:
+  Error-msg:
+    description: Error message
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+        example: 404
+      message:
+        type: string
+        example: Not found
+      help:
+        type: string
+        description: 'More description, help on the error'
+        example: Please check the id of the requested resource
+  User:
+    type: object
+    properties:
+      uuid:
+        type: string
+        description: UUID of the user
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      name:
+        type: string
+        description: Name of the user
+        example: John Doe
+      username:
+        type: string
+        description: Username of the user
+        example: John.Doe
+      password:
+        type: string
+        format: password
+        description: Registration password of the user
+        example: test123
+      email:
+        type: string
+        description: Email address of the user
+        example: john.doe@mail.com
+      phone:
+        type: string
+        description: Phone number of the user
+        example: 999-999-9999
+      country_code:
+        type: integer
+        format: int32
+        description: Country code of the phone number used.
+        example: 1
+parameters:
+  PId:
+    in: path
+    name: PId
+    description: Unique Id of the parent record
+    type: string
+    required: true
+  Id:
+    in: path
+    name: Id
+    description: Unique Id of the record
+    type: string
+    required: true
+  off-set:
+    name: offset
+    in: query
+    type: integer
+    format: int32
+    minimum: 0
+    default: 0
+  page-size:
+    name: limit
+    in: query
+    type: integer
+    format: int32
+    minimum: 1
+    maximum: 25
+    default: 10
+  User:
+    in: body
+    name: User
+    description: User details
+    schema:
+      $ref: '#/definitions/User'
+  SF-flag:
+    name: sf-flag
+    in: query
+    type: string
+    required: true
+    enum:
+      - register
+      - deregister
+      - none
+responses:
+  400-bad-request:
+    description: Bad request error
+    schema:
+      $ref: '#/definitions/Error-msg'
+  403-forbidden:
+    description: Error when the user is unauthorized to perform the action
+    schema:
+      $ref: '#/definitions/Error-msg'
+  404-not-found:
+    description: Error when requested resource not found
+    schema:
+      $ref: '#/definitions/Error-msg'
+  500-internal-error:
+    description: Internal server error
+    schema:
+      $ref: '#/definitions/Error-msg'
+host: 'localhost:8080'
+basePath: /apigeedemo_proxy/v1
+schemes:
+  - https

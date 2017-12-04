@@ -1,0 +1,700 @@
+swagger: '2.0'
+info:
+  description: These are the APIs to be exposed by the core banking app
+  version: 2.0.0
+  title: Apigee Demo Core APIs
+  contact:
+    email: ritwik.t.chatterjee@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: customers
+    description: Customers related APIs
+  - name: accounts
+    description: Accounts related APIs
+  - name: customer-accounts
+    description: Customer-account related APIs
+  - name: transactions
+    description: Transactions related APIs
+  - name: account-transactions
+    description: Account-transactions related APIs
+  - name: transactions-sf
+    description: Second factor auth related APIs
+paths:
+  /customers:
+    get:
+      tags:
+        - customers
+      summary: List Customers
+      description: List of all customers
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/page-size'
+        - $ref: '#/parameters/off-set'
+      responses:
+        '200':
+          description: List of all customers
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Customer'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '500':
+          $ref: '#/responses/500-internal-error'
+    post:
+      tags:
+        - customers
+      summary: Create a customer
+      description: Creates a new customer
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Customer
+          description: Customer to add
+          schema:
+            $ref: '#/definitions/Customer'
+      responses:
+        '201':
+          description: customer created
+          schema:
+            $ref: '#/definitions/Customer'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '500':
+          $ref: '#/responses/500-internal-error'
+  '/customers/{Id}':
+    get:
+      tags:
+        - customers
+      summary: Get Customer
+      description: Gets a particular customer
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/Id'
+      responses:
+        '200':
+          description: Customer requested
+          schema:
+            $ref: '#/definitions/Customer'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+    put:
+      tags:
+        - customers
+      summary: Update a customer
+      description: Updates an existing customer
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/Id'
+        - in: body
+          name: Customer
+          description: Updated customer value
+          schema:
+            $ref: '#/definitions/Customer'
+      responses:
+        '200':
+          description: Same customer after updation
+          schema:
+            $ref: '#/definitions/Customer'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+  /accounts:
+    get:
+      tags:
+        - accounts
+      summary: List of Accounts
+      description: List of all accounts
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/page-size'
+        - $ref: '#/parameters/off-set'
+      responses:
+        '200':
+          description: List of all accounts
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Account'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+    post:
+      tags:
+        - accounts
+      summary: Create an account
+      description: Creates a new account. TODO - should I have this? Problem for Usergrid
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/Account'
+      responses:
+        '201':
+          description: Account created
+          schema:
+            $ref: '#/definitions/Account'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+  '/accounts/{Id}':
+    get:
+      tags:
+        - accounts
+      summary: Get a particular Account
+      description: Gets a particular account
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/Id'
+      responses:
+        '200':
+          description: Account requested
+          schema:
+            $ref: '#/definitions/Account'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+    put:
+      tags:
+        - accounts
+      summary: Update an account
+      description: Updates an existing account
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/Id'
+        - $ref: '#/parameters/Account'
+      responses:
+        '200':
+          description: account updated
+          schema:
+            $ref: '#/definitions/Account'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+  '/customers/{PId}/accounts':
+    get:
+      tags:
+        - customer-accounts
+      summary: List of Accounts for particular customers
+      description: List of all accounts for particular customers
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/PId'
+        - $ref: '#/parameters/page-size'
+        - $ref: '#/parameters/off-set'
+      responses:
+        '200':
+          description: List of all accounts for the given customer
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Account'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+    post:
+      tags:
+        - customer-accounts
+      summary: Create an account for a customer
+      description: Creates a new account for a given customer
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/PId'
+        - $ref: '#/parameters/Account'
+      responses:
+        '201':
+          description: Account created
+          schema:
+            $ref: '#/definitions/Account'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+  '/customers/{PId}/accounts/{Id}':
+    get:
+      tags:
+        - customer-accounts
+      summary: Get Account for Customer
+      description: Gets a particular account for a customer
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/PId'
+        - $ref: '#/parameters/Id'
+      responses:
+        '200':
+          description: Account requested
+          schema:
+            $ref: '#/definitions/Account'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+    put:
+      tags:
+        - customer-accounts
+      summary: Update an account for a customer
+      description: Updates an existing account for a customer
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/PId'
+        - $ref: '#/parameters/Id'
+        - $ref: '#/parameters/Account'
+      responses:
+        '200':
+          description: account updated
+          schema:
+            $ref: '#/definitions/Account'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+  /transactions:
+    get:
+      tags:
+        - transactions
+      summary: List of Transactions
+      description: List of all transactions
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/page-size'
+        - $ref: '#/parameters/off-set'
+      responses:
+        '200':
+          description: List of all transactions
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+    post:
+      tags:
+        - transactions
+      summary: Create a transaction
+      description: >-
+        Creates a new transaction. TODO - should I have this? Problem for
+        Usergrid
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/Transaction'
+      responses:
+        '201':
+          description: Transaction created
+          schema:
+            $ref: '#/definitions/Transaction'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+  '/transactions/{Id}':
+    get:
+      tags:
+        - transactions
+      summary: Get a particular Transaction
+      description: Gets a particular transaction
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/Id'
+      responses:
+        '200':
+          description: Transaction requested
+          schema:
+            $ref: '#/definitions/Transaction'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+    put:
+      tags:
+        - transactions
+      summary: Update an transaction
+      description: Updates an existing transaction
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/Id'
+        - $ref: '#/parameters/Transaction'
+      responses:
+        '200':
+          description: transaction updated
+          schema:
+            $ref: '#/definitions/Transaction'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+  '/transactions/{Id}/sfauth':
+    post:
+      tags:
+        - transactions-sf
+      summary: Second Factor Auth for transactions
+      description: Resends or confirms second factor auth
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/Id'
+        - name: action
+          in: query
+          type: string
+          enum:
+            - Confirm
+            - Resend
+      responses:
+        '200':
+          description: Request accepted
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Token validation success
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+  '/accounts/{PId}/transactions':
+    get:
+      tags:
+        - account-transactions
+      summary: List of Transactions for particular accounts
+      description: List of all transactions for particular accounts
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/PId'
+        - $ref: '#/parameters/page-size'
+        - $ref: '#/parameters/off-set'
+      responses:
+        '200':
+          description: List of all transactions for the given account
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+    post:
+      tags:
+        - account-transactions
+      summary: Create an transaction for a account
+      description: Creates a new transaction for a given account
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/PId'
+        - $ref: '#/parameters/Transaction'
+      responses:
+        '201':
+          description: Transaction created
+          schema:
+            $ref: '#/definitions/Transaction'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+  '/accounts/{PId}/transactions/{Id}':
+    get:
+      tags:
+        - account-transactions
+      summary: Get Transaction for Account
+      description: Gets a particular transaction for a account
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/PId'
+        - $ref: '#/parameters/Id'
+      responses:
+        '200':
+          description: Transaction requested
+          schema:
+            $ref: '#/definitions/Transaction'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+    put:
+      tags:
+        - account-transactions
+      summary: Update an transaction for a account
+      description: Updates an existing transaction for a account
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/PId'
+        - $ref: '#/parameters/Id'
+        - $ref: '#/parameters/Transaction'
+      responses:
+        '200':
+          description: transaction updated
+          schema:
+            $ref: '#/definitions/Transaction'
+        '400':
+          $ref: '#/responses/400-bad-request'
+        '403':
+          $ref: '#/responses/403-forbidden'
+        '404':
+          $ref: '#/responses/404-not-found'
+        '500':
+          $ref: '#/responses/500-internal-error'
+definitions:
+  Error-msg:
+    description: Error message
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+        example: 404
+      message:
+        type: string
+        example: Not found
+      help:
+        type: string
+        description: 'More description, help on the error'
+        example: Please check the id of the requested resource
+  Customer:
+    type: object
+    properties:
+      uuid:
+        type: string
+        description: UUID of the customer
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      SF_id:
+        type: string
+        description: Second Factor app id
+        example: 123456
+  Account:
+    required:
+      - acc_bal
+      - customer_id
+    properties:
+      uuid:
+        type: string
+        description: UUID of the account
+        example: a222g1ee-6c54-4b01-90e6-d701748f0851
+      acc_bal:
+        type: number
+        format: float
+        description: Account Balance
+        example: 500
+      bal_updt_ts:
+        type: string
+        description: When the account balance was last updated
+      customer_id:
+        type: string
+        description: Customer who owns the account
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      SF_id:
+        type: string
+        description: Second Factor app id
+        example: 123456
+  Transaction:
+    required:
+      - txn_details
+      - txn_amount
+    properties:
+      uuid:
+        type: string
+        description: UUID of the transaction
+        example: t54132ee-6c54-4b01-90e6-d701748f0851
+      acc_id:
+        type: string
+        description: The associated account for the transaction
+        example: a222g1ee-6c54-4b01-90e6-d701748f0851
+      txn_ts:
+        type: string
+        description: The time-stamp for the transaction
+      txn_details:
+        type: string
+        description: Details of the transaction
+        example: Transfer to Joe
+      txn_amount:
+        type: number
+        format: float
+        description: Account Balance
+        example: 5
+      txn_status:
+        type: string
+        enum:
+          - Pending
+          - Confirmed
+          - Cancelled
+        description: Current status of the transaction
+        example: Confirmed
+      txn_status_ts:
+        type: string
+        description: The time-stamp for the transaction status
+parameters:
+  PId:
+    in: path
+    name: PId
+    description: Unique Id of the parent record
+    type: string
+    required: true
+  Id:
+    in: path
+    name: Id
+    description: Unique Id of the record
+    type: string
+    required: true
+  off-set:
+    name: offset
+    in: query
+    type: integer
+    format: int32
+    minimum: 0
+    default: 0
+  page-size:
+    name: limit
+    in: query
+    type: integer
+    format: int32
+    minimum: 1
+    maximum: 25
+    default: 10
+  Account:
+    in: body
+    name: Account
+    description: Updated account
+    schema:
+      $ref: '#/definitions/Account'
+  Transaction:
+    in: body
+    name: Transaction
+    description: Updated account
+    schema:
+      $ref: '#/definitions/Transaction'
+responses:
+  400-bad-request:
+    description: Bad request error
+    schema:
+      $ref: '#/definitions/Error-msg'
+  403-forbidden:
+    description: Error when the user is unauthorized to perform the action
+    schema:
+      $ref: '#/definitions/Error-msg'
+  404-not-found:
+    description: Error when requested resource not found
+    schema:
+      $ref: '#/definitions/Error-msg'
+  500-internal-error:
+    description: Internal server error
+    schema:
+      $ref: '#/definitions/Error-msg'
+host: 'localhost:8080'
+basePath: /apigeedemo_core/v2
+schemes:
+  - https
