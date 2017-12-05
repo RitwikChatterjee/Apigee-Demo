@@ -3,6 +3,7 @@ const moment = require('moment');
 // App imports
 const accounttransactions = require('../adapter/Accounttransactions');
 const accounts = require('../adapter/Accounts');
+const sfauth = require('../adapter/Sfauth');
 const logger = require('../util/AppLogger.js');
 
 exports.accountsPIdTransactionsGET = function (args, callback) {
@@ -77,12 +78,13 @@ exports.accountsPIdTransactionsIdPUT = function (args, callback) {
             Account:{
             }
         };
+        var acc;
 
         //   2. Fetch account balance
         fetchAccount(acc_args).then(function (acc_string) {
             logger('debug', 'Account args: ' + JSON.stringify(acc_args));
             logger('debug', 'Account fetched: ' + acc_string);
-            var acc = JSON.parse(acc_string)[0];
+            acc = JSON.parse(acc_string)[0];
             // Step 3.
             acc.acc_bal = acc.acc_bal + transaction.txn_amount;
             if (acc.acc_bal < 0) {
@@ -108,6 +110,20 @@ exports.accountsPIdTransactionsIdPUT = function (args, callback) {
             logger('debug', 'Transaction created = ' + txn);
             // 7. Create SFAuth 
             // TODO - send for Second Factor;
+            var sfauth_args = {
+                SF_auth:{
+                    value:{
+                        SF_id: acc.SF_id
+                    }
+                }
+            }
+            sfauth.sfSendTxtToken(sfauth_args, function (err, data) {
+                if (err) {
+                    logger('info', 'Sending sf token failed');
+                } else {
+                    logger('info', 'Sending sf token success');
+                }
+            });
             callback(null, txn);
         }).catch(function (err) {
             // TODO - Handle rollback scenarios

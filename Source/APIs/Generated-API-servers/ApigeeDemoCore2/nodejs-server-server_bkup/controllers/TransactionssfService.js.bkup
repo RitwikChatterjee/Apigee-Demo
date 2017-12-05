@@ -6,6 +6,7 @@ exports.transactionsIdSfauthPOST = function(args, res, next) {
    * Resends or confirms second factor auth
    *
    * id String Unique Id of the record
+   * sF_auth SF_auth Second Factor authentication information (optional)
    * action String  (optional)
    * returns inline_response_200
    **/

@@ -1,6 +1,6 @@
 {
   "name": "apigee-demo-core-apis",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "These are the APIs to be exposed by the core banking app",
   "main": "index.js",
   "scripts": {

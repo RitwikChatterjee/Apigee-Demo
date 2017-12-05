@@ -1,5 +1,22 @@
 'use strict';
 
+// App imports
+const transactionssfBiz = require('../biz/TransactionssfBiz');
+
+// Send response to calling application
+function sendResponse(error, res, data, next) {
+  if (error) {
+    next(error, null, res);
+  } else {
+    if (Object.keys(data).length > 0) {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(data);
+    } else {
+      res.end();
+    }
+  }
+}
+
 exports.transactionsIdSfauthPOST = function(args, res, next) {
   /**
    * Second Factor Auth for transactions
@@ -9,15 +26,8 @@ exports.transactionsIdSfauthPOST = function(args, res, next) {
    * action String  (optional)
    * returns inline_response_200
    **/
-  var examples = {};
-  examples['application/json'] = {
-  "message" : "Token validation success"
-};
-  if (Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  } else {
-    res.end();
-  }
+  transactionssfBiz.transactionsIdSfauthPOST(args, function(err, data){
+    sendResponse(err, res, data, next);
+  });
 }
 

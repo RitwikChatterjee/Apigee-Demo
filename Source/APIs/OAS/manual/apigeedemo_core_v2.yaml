@@ -1,4 +1,5 @@
 swagger: '2.0'
+
 info:
   description: These are the APIs to be exposed by the core banking app
   version: 2.0.0
@@ -8,6 +9,7 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
 tags:
   - name: customers
     description: Customers related APIs
@@ -21,6 +23,7 @@ tags:
     description: Account-transactions related APIs
   - name: transactions-sf
     description: Second factor auth related APIs
+
 paths:
   /customers:
     get:
@@ -422,6 +425,7 @@ paths:
         - application/json
       parameters:
         - $ref: '#/parameters/Id'
+        - $ref: '#/parameters/SF_auth'
         - name: action
           in: query
           type: string
@@ -547,6 +551,8 @@ paths:
           $ref: '#/responses/404-not-found'
         '500':
           $ref: '#/responses/500-internal-error'
+
+
 definitions:
   Error-msg:
     description: Error message
@@ -577,6 +583,7 @@ definitions:
         description: Second Factor app id
         example: 123456
   Account:
+    type: object
     required:
       - acc_bal
       - customer_id
@@ -602,6 +609,7 @@ definitions:
         description: Second Factor app id
         example: 123456
   Transaction:
+    type: object
     required:
       - txn_details
       - txn_amount
@@ -637,6 +645,22 @@ definitions:
       txn_status_ts:
         type: string
         description: The time-stamp for the transaction status
+  SF_auth:
+    description: Second Factor Auth info
+    type: object
+    # required:
+    #   - sf_id
+    properties:
+      SF_id:
+        type: string
+        description: The registered SF_Id associated with the account
+        example: "123456"
+      token:
+        type: string
+        description: The token to be validated
+        example: "54321"
+
+
 parameters:
   PId:
     in: path
@@ -677,6 +701,15 @@ parameters:
     description: Updated account
     schema:
       $ref: '#/definitions/Transaction'
+  SF_auth:
+    in: body
+    name: SF_auth
+    description: Second Factor authentication information
+    schema:
+      $ref: '#/definitions/SF_auth'
+
+
+
 responses:
   400-bad-request:
     description: Bad request error
@@ -694,6 +727,8 @@ responses:
     description: Internal server error
     schema:
       $ref: '#/definitions/Error-msg'
+
+
 host: 'localhost:8080'
 basePath: /apigeedemo_core/v2
 schemes:

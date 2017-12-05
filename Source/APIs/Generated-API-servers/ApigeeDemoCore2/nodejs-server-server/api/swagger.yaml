@@ -708,6 +708,12 @@ paths:
         description: "Unique Id of the record"
         required: true
         type: "string"
+      - in: "body"
+        name: "SF_auth"
+        description: "Second Factor authentication information"
+        required: false
+        schema:
+          $ref: "#/definitions/SF_auth"
       - name: "action"
         in: "query"
         required: false
@@ -956,6 +962,7 @@ definitions:
         example: "123456"
         description: "Second Factor app id"
   Account:
+    type: "object"
     required:
     - "acc_bal"
     - "customer_id"
@@ -981,6 +988,7 @@ definitions:
         example: "123456"
         description: "Second Factor app id"
   Transaction:
+    type: "object"
     required:
     - "txn_amount"
     - "txn_details"
@@ -1016,6 +1024,18 @@ definitions:
       txn_status_ts:
         type: "string"
         description: "The time-stamp for the transaction status"
+  SF_auth:
+    type: "object"
+    properties:
+      SF_id:
+        type: "string"
+        example: "123456"
+        description: "The registered SF_Id associated with the account"
+      token:
+        type: "string"
+        example: "54321"
+        description: "The token to be validated"
+    description: "Second Factor Auth info"
   inline_response_200:
     properties:
       message:
@@ -1065,6 +1085,13 @@ parameters:
     required: false
     schema:
       $ref: "#/definitions/Transaction"
+  SF_auth:
+    in: "body"
+    name: "SF_auth"
+    description: "Second Factor authentication information"
+    required: false
+    schema:
+      $ref: "#/definitions/SF_auth"
 responses:
   400-bad-request:
     description: "Bad request error"
